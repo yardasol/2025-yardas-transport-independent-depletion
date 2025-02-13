@@ -1,0 +1,85 @@
+\section{Methodology}
+    \label{sec:methods}
+    We had several design goals for transport-independent depletion functionality:
+    \begin{itemize}
+        \item Enable use of OpenMC depletion capabilities using only the Python API.
+        \item Enable geometry-free depletion
+        \item Allow users to pass one or more materials, and specify a power or
+            flux along with a set of one-group microscopic cross sections to
+            perform depletion.
+    \end{itemize}
+    
+    We created the \verb.IndependentOperator. and \verb.MicroXS. classes to
+    achieve these design goals.
+    
+    \subsection{MicroXS}
+        The \verb.MicroXS. class is a subclass of the \verb,pandas.DataFrame,
+        indexed by nuclide and reaction name. It also contains methods to create
+        a \verb.MicroXS. object by reading a .csv file or a data array. In
+        principle, a user could create one-group microscopic cross sections with
+        a transport solver code, and then use the \verb.MicroXS. class to read in the
+        cross section data for use in depletion. It should be noted that
+        \verb.MicroXS. has a function to create one-group microscopic cross
+        sections from an OpenMC \verb.Model. object that uses OpenMC's
+        \verb.mgxs. module to process tallies.
+
+        We chose one-group cross sections because they are easy to store and
+        small, whereas a full continuous-energy cross section library can be on
+        the order of gigabytes in size.
+        
+        Mathematically, calculating reactions rates using one-group cross
+        sections should be equivalent to tallying the reaction rates directly.
+        In a transport-coupled depletion calculation, reaction rates are tallied
+        directly:
+        % verify this, I have a suspicion we may need density and volume in there as well
+        \begin{equation}
+            r^j_i = \int_0^\infty \phi(E) \sigma^j_i(E) dE
+        \end{equation}
+        where $i$ and $j$ indicate the nuclide and reaction, respectively.
+
+        These reaction rates are in units of reactions/src particle, so we need
+        a normalization factor $f$ in src/s to get reactions/s:
+        \begin{equation}
+            R^j_i = r^j_i * f
+        \end{equation}
+
+        In obtaining one-group cross sections for a transport-independent
+        depletion, we would also compute $r^j_i$ from a transport calculaton, as
+        well as the energy-averaged flux (in units of particle-cm / src):
+        \begin{equation}
+            \bar{\phi} = \int_0^\infty \phi(E) dE
+        \end{equation}
+        and then compute the one-group macroscopic cross section:
+        \begin{equation}
+            \bar{\Sigma}^j_i = \frac{r^j_i}{\bar{\phi}}
+        \end{equation}
+        Notice that the src unit cancels out, leaving us with $cm^{-1}$, which
+        are indeed the correct units.
+
+        When we go to compute reaction rates, we use the equation 
+
+        \begin{equation}
+            R^j_i = \bar{\phi'} \bar\Sigma^j_i = r^j_i\frac{\bar{\phi'}}{\bar{\phi}} = r^j_i f
+        \end{equation}
+        where $\bar{\phi'}$ is the `true' neutron flux. By inspection, we can
+        see that $f$ has the correct units of src/s. It follows that using a
+        single energy group and energy-averaged flux to calculate reaction rates
+        is mathematically equivalent to the statistical tallying of reaction
+        rates.
+
+            
+    \subsection{IndependentOperator}
+        The \verb.IndependentOperator. class uses an instance of the
+        \verb.MicroXS. class to calculate the reaction rates using one-group
+        microscopic cross sections via the following equation:
+        \begin{equation}
+            R^j_i = \bar{\phi'} \bar{\sigma}^j_i n_i V
+        \end{equation}
+        where $\sigma$ is the microscopic cross section, $n$ is the number
+        density [$at/cm^3$] and $V$ is the volume [$cm^3$]. The microscopic
+        cross sections are stored in a \verb.MicroXS. object which must be
+        provided the user. This opens up indirect coupling to any transport code
+        that can calculate one-group microscopic cross-sections. After some
+        slight modifications to the existing OpenMC API, only these two classes
+        are needed to perform transport independent depletion.
+

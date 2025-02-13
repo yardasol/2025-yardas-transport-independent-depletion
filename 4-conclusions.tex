@@ -1,0 +1,47 @@
+\section{Conclusions}\label{sec:conclusion}
+    In this paper, we introduced a new method for running depletion simulations
+    in OpenMC. This method relies on pre-calclated one-group cross sections
+    stored in a table. The new method is siginifcantly faster than running a
+    transport-coupled depletion simulation, albiet with a penalty to accuracy.
+    Better accuracy will be obtained in simulations where the neutron flux
+    spectrum will be constant, i.e. in fusion simulations.
+    
+    The geometry used in this study was a simple PWR pincell. We are unsure how
+    the method performs with more complex geometries. Future work could
+    focus on exploring this.
+     
+    Currently, we do not have capabilities to calculate $k_\text{eff}$ using
+    \verb.IndependentOperator.. We have looked at a implementing a method
+    similar to one in  \cite{LOVECKY2014333}, wherein ... (adapt discussion from
+    GH issue)
+
+    Finally, while the current method is limited to using one-group cross
+    sections, it would not be too difficult to add support for multi-group cross
+    sections. The authors estimate that adding support for multiple energy
+    groups may increase the accuracy of depletion simulations using
+    \verb.IndependentOperator. compared to transport-coupled simulations,
+    expecially for more complex geometries.
+section{Conclusions}\label{sec:conclusion}
+    In this paper, we introduced a new method for running depletion simulations
+    in OpenMC. This method relies on pre-calclated one-group cross sections
+    stored in a table. The new method is siginifcantly faster than running a
+    transport-coupled depletion simulation, albiet with a penalty to accuracy.
+    Better accuracy will be obtained in simulations where the neutron flux
+    spectrum will be constant, i.e. in fusion simulations.
+    
+    The geometry used in this study was a simple PWR pincell. We are unsure how
+    the method performs with more complex geometries. Future work could
+    focus on exploring this.
+     
+    Currently, we do not have capabilities to calculate $k_\text{eff}$ using
+    \verb.IndependentOperator.. We have looked at a implementing a method
+    similar to one in  \cite{LOVECKY2014333}, wherein ... (adapt discussion from
+    GH issue)
+
+    Finally, while the current method is limited to using one-group cross
+    sections, it would not be too difficult to add support for multi-group cross
+    sections. The authors estimate that adding support for multiple energy
+    groups may increase the accuracy of depletion simulations using
+    \verb.IndependentOperator. compared to transport-coupled simulations,
+    expecially for more complex geometries.
+

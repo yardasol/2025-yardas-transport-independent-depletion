@@ -1,0 +1,48 @@
+\section{Introduction}\label{}
+    Modeling and simulation codes will play a critical role in licensing
+    advanced nuclear reactors. In preparation for advanced nuclear, both the
+    \Gls{doene} and the \Gls{nrc} identified several technical gaps in current
+    \Gls{mns} tools that are necessary for efficient and effective license
+    application reviews \cite{betzler_modeling_2019} \cite{usnrc_nonlwr_2020-1}.
+    The composition of nuclides in a material subject to irradiation over time
+    changes due to the nuclear transmutation and decay reactions taking place.
+    This process is commonly known as {\it depletion} or {\it burnup}.  Both
+    \Gls{doene} and the \Gls{nrc} have specifically identified depletion to be a
+    key modeling feature for advanced nuclear reactors.
+    
+    Modeling depletion in nuclear reactors is inherently linked with modeling
+    neutron transport. In order to obtain the transmutation reaction rates
+    needed for a depletion calculation, one needs to calculate the neutron flux
+    by solving the neutron transport equation. Conversely, after every depletion
+    calculation, the transport solution will need  to be run again due the
+    change in material composition. This process can be very expensive if
+    looking at lifetime behavior of reactor designs, as many transport
+    simulations are needed and they must be done sequentially.
+
+    The ExaSMR (Small modular reactor) project seeks to use state-of-the-art
+    software tools in Monte Carlo transport and compuitational fluid dynamics
+    coupled with heat transfer for simulating advanced reactors along with
+    exascale computing hardware to overcome this computational challenge. These
+    methods are very computationally expensive, but deliver high confidence in
+    their results. If one component in this tool chain could be simplified or
+    sped up, it would greatly reduce the computational cost on and economic cost
+    from these exascale machines.
+
+    Depletion capabilities were recently added to OpenMC, an open source,
+    community developed MC particle transport code \cite{romano_openmc_2015}
+    \cite{romano_depletion_2021}. The depletion solver utilizes OpenMC's Python
+    API to iteratively run a transport simulation, calculate the reaction rates,
+    and update the material composition. In the present work, we describe a new
+    method for running depletion calculations without the need to iteratively
+    run transport calculations by using precalculated microscopic cross sections
+    for each depletion step. At most, only one transport calculation needs to be
+    run to generate these cross sections.
+
+    The paper is organized as follows. In Section \ref{sec:methods}, we describe
+    the methods and algorithms used to calculate reaction rates using the new
+    depletion capabilities. In Section \ref{sec:results}, we describe our
+    simulation and analyse the results. In Section \ref{sec:conclusion}, we
+    summarize our results, and discuss some gaps in the current implementation
+    of the new feature.
+
+
