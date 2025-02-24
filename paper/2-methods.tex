@@ -1,39 +1,39 @@
 \section{Methodology}
     \label{sec:methods}
-    We had several design goals for transport-independent depletion functionality:
+    We had two design goals for transport-independent depletion functionality:
     \begin{itemize}
         \item Enable use of OpenMC depletion capabilities using only the Python API.
-        \item Enable geometry-free depletion
-        \item Allow users to pass one or more materials, and specify a power or
-            flux along with a set of one-group microscopic cross sections to
-            perform depletion.
+        \item Enable depletion of materials directly given a multi-group flux
+            for each material 
     \end{itemize}
     
     We created the \verb.IndependentOperator. and \verb.MicroXS. classes to
-    achieve these design goals.
-    
-    \subsection{MicroXS}
-        The \verb.MicroXS. class is a subclass of the \verb,pandas.DataFrame,
-        indexed by nuclide and reaction name. It also contains methods to create
-        a \verb.MicroXS. object by reading a .csv file or a data array. In
-        principle, a user could create one-group microscopic cross sections with
-        a transport solver code, and then use the \verb.MicroXS. class to read in the
-        cross section data for use in depletion. It should be noted that
-        \verb.MicroXS. has a function to create one-group microscopic cross
-        sections from an OpenMC \verb.Model. object that uses OpenMC's
-        \verb.mgxs. module to process tallies.
+    achieve these design goals.    
 
-        We chose one-group cross sections because they are easy to store and
-        small, whereas a full continuous-energy cross section library can be on
-        the order of gigabytes in size.
+    \subsection{MicroXS}
+        The \verb.MicroXS. class is a subclass that contains cross-section data
+        indexes by nuclide, reaction name, and energy group. It also contains
+        methods to import and export \verb.MicroXS. objects from \verb,.csv,
+        files. In principle, a user could create multi-group microscopic cross
+        sections with a transport solver code, and then use the \verb.MicroXS.
+        class to read in the cross section data for use in depletion, however
+        this is unnecessary as the \verb.get_microxs_and_flux(). function allows
+        easy creation multiple \verb.MicroXS. objects and multi-group flux
+        profiles for the user-specified domain.
+
+        In the initial release of this feature in OpenMC v0.13.1, \verb.MicroXS.
+        subclassed the Pandas \verb.DataFrame. class to store data and assumed a
+        one-group structure. The v0.14.0 release removed the Pandas dependency
+        and refactored \verb.MicroXS. class to store multi-group cross section
+        data.
         
-        Mathematically, calculating reactions rates using one-group cross
-        sections should be equivalent to tallying the reaction rates directly.
-        In a transport-coupled depletion calculation, reaction rates are tallied
-        directly:
+        Calculating reactions rates using multi-group cross
+        sections is mathematically equivalent to tallying the reaction rates
+        directly. In transport-coupled depletion calculation, reaction rates
+        are tallied directly as:
         % verify this, I have a suspicion we may need density and volume in there as well
         \begin{equation}
-            r^j_i = \int_0^\infty \phi(E) \sigma^j_i(E) dE
+            r^j_{i} = \int_0^\infty \phi(E) \sigma^j_i(E) dE
         \end{equation}
         where $i$ and $j$ indicate the nuclide and reaction, respectively.
 
@@ -43,15 +43,16 @@
             R^j_i = r^j_i * f
         \end{equation}
 
-        In obtaining one-group cross sections for a transport-independent
-        depletion, we would also compute $r^j_i$ from a transport calculaton, as
-        well as the energy-averaged flux (in units of particle-cm / src):
+        In obtaining multi-group cross sections for a transport-independent
+        depletion, we would also compute the group-wise reaction rate
+        $r^j_{i,g}$ from a transport calculaton, as well as the group-averaged
+        flux (in units of particle-cm / src):
         \begin{equation}
-            \bar{\phi} = \int_0^\infty \phi(E) dE
+            \bar{\phi}_{g} = \int_{E_{g}}^{E_{g-1}} \phi(E) dE
         \end{equation}
-        and then compute the one-group macroscopic cross section:
+        and then compute the multi-group macroscopic cross section:
         \begin{equation}
-            \bar{\Sigma}^j_i = \frac{r^j_i}{\bar{\phi}}
+            \bar{\Sigma}^j_{i,g} = \frac{r^j_{i,g}}{\bar{\phi}_{g}}
         \end{equation}
         Notice that the src unit cancels out, leaving us with $cm^{-1}$, which
         are indeed the correct units.
@@ -59,7 +60,8 @@
         When we go to compute reaction rates, we use the equation 
 
         \begin{equation}
-            R^j_i = \bar{\phi'} \bar\Sigma^j_i = r^j_i\frac{\bar{\phi'}}{\bar{\phi}} = r^j_i f
+            R^j_i = \sum_{g} \bar{\phi'}_{g} \bar\Sigma^j_{i,g} = \sum_{g}
+            r^j_{i,g}\frac{\bar{\phi'}}{\bar{\phi}} = r^j_i f
         \end{equation}
         where $\bar{\phi'}$ is the `true' neutron flux. By inspection, we can
         see that $f$ has the correct units of src/s. It follows that using a
