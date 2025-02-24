@@ -1,32 +1,20 @@
 import argparse
-import os
 
 import numpy as np
 
 import openmc
-from openmc.deplete.microxs import MicroXS
-from openmc.mgxs import EnergyGroups
-from openmc.deplete import Chain
+from openmc.deplete import get_microxs_and_flux, MicroXS
+from openmc.mgxs import GROUP_STRUCTURES
 
-def parse_arguments():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-m', choices=['simple', 'full'],
-                        type=str,
-                        default='simple',
-                        help='depletion chain complexity')
-    parser.add_argument('-N',
-                        type=int,
-                        default=2,
-                        help='number of nodes to use in \
-                        distributed memory runs')
-    parser.add_argument('-n',
-                        type=int,
-                        default=4,
-                        help='number of MPI ranks to use')
+#def parse_arguments():
+#    parser = argparse.ArgumentParser()
+#   parser.add_argument('-m', choices=['simple', 'full'],
+#                       type=str,
+#                       default='simple',
+#                       help='depletion chain complexity')
 
-
-    args = parser.parse_args()
-    return str(args.m), int(args.N), int(args.n)
+#   args = parser.parse_args()
+#   return str(args.m)
 
 fuel = openmc.Material(name="uo2")
 fuel.add_element("U", 1, percent_type="ao", enrichment=4.25)
@@ -50,8 +38,8 @@ materials = openmc.Materials([fuel, clad, water])
 
 pin_surfaces = [openmc.ZCylinder(r=r) for r in radii]
 pin_univ = openmc.model.pin(pin_surfaces, materials)
-bound_box = openmc.rectangular_prism(1.24, 1.24, boundary_type="reflective")
-root_cell = openmc.Cell(fill=pin_univ, region=bound_box)
+bound_box = openmc.model.RectangularPrism(1.24, 1.24, boundary_type="reflective")
+root_cell = openmc.Cell(fill=pin_univ, region=-bound_box)
 geometry = openmc.Geometry([root_cell])
 
 mode_dict = {'simple': (openmc.Settings(**{'batches': 50,
@@ -62,23 +50,26 @@ mode_dict = {'simple': (openmc.Settings(**{'batches': 50,
                                        'inactive': 25,
                                        'particles': 100000,
                                        'tallies': False}),
-                      '../one_group/chain_endbf71_pwr.xml')
+                      'chain_endbf71_pwr.xml')
             }
-mode, N, n = parse_arguments()
+#mode = parse_arguments()
+mode = 'full'
+from_mg_flux = False
 settings, chain_file = mode_dict[mode]
-settings.export_to_xml(f'../settings-{mode}.xml')
-materials.export_to_xml('../materials.xml')
-geometry.export_to_xml('../geometry.xml')
-
-energies = [...] ## Need to pick energy group
-reaction_domain=materials[0]
-
-model = openmc.Model(geometry, materials, settings)
-
-
-flux, micros = openmc.deplete.get_microxs_and_flux(model, materials, energies,
-                                                   chain_file)
-
-flux = ... ## export numpy to csv?
-micro_xs.to_csv(f'../micro_xs_{mode}.csv')
+#settings.export_to_xml(f'settings-{mode}.xml')
+#materials.export_to_xml('materials.xml')
+#geometry.export_to_xml('geometry.xml')
+energies = GROUP_STRUCTURES['CASMO-8'] ## Need to pick energy group
+if from_mg_flux:
+    flux = np.loadtxt(f'flux_{mode}.csv')
+    micro = MicroXS.from_multigroup_flux('CASMO-8', flux, chain_file=chain_file)
+    micro.to_csv(f'micro_xs_{mode}_mg.csv')
+else:
+    model = openmc.Model(geometry, materials, settings)
+    fluxes, micros = get_microxs_and_flux(model, [materials[0]], energies=energies,
+                                        chain_file=chain_file)
+    # There's only one element but it's a list so we gotta pick out the singular
+    # element
+    np.savetxt(f'flux_{mode}.csv', fluxes[0], delimiter=',')
+    micros[0].to_csv(f'micro_xs_{mode}.csv')
 
