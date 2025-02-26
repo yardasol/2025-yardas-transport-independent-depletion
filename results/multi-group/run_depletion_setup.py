@@ -7,6 +7,8 @@ import openmc
 from openmc.deplete import get_microxs_and_flux, MicroXS
 from openmc.mgxs import GROUP_STRUCTURES
 
+GROUP_STRUCTURES['CASMO-1'] = [0., 2.e7]
+
 def parse_arguments():
    parser = argparse.ArgumentParser()
    parser.add_argument('-m', choices=['simple', 'full'],
