@@ -11,15 +11,16 @@
     achieve these design goals.    
 
     \subsection{MicroXS}
-        The \verb.MicroXS. class is a subclass that contains cross-section data
-        indexes by nuclide, reaction name, and energy group. It also contains
-        methods to import and export \verb.MicroXS. objects from \verb,.csv,
-        files. In principle, a user could create multi-group microscopic cross
-        sections with a transport solver code, and then use the \verb.MicroXS.
-        class to read in the cross section data for use in depletion, however
-        this is unnecessary as the \verb.get_microxs_and_flux(). function allows
-        easy creation multiple \verb.MicroXS. objects and multi-group flux
-        profiles for the user-specified domain.
+        \label{sub:microxs}
+        The \verb.MicroXS. class contains cross-section data indexed by nuclide,
+        reaction name, and energy group. It also contains methods to import and
+        export \verb.MicroXS. objects from \verb,.csv, files. In principle, a
+        user could create multi-group microscopic cross sections with a
+        transport solver code, and then use the \verb.MicroXS.  class to read in
+        the cross section data for use in depletion, however this is unnecessary
+        as the \verb.get_microxs_and_flux(). function allows easy creation
+        multiple \verb.MicroXS. objects and multi-group flux profiles for the
+        user-specified domains.
 
         In the initial release of this feature in OpenMC v0.13.1, \verb.MicroXS.
         subclassed the Pandas \verb.DataFrame. class to store data and assumed a
@@ -27,51 +28,42 @@
         and refactored \verb.MicroXS. class to store multi-group cross section
         data.
         
-        Calculating reactions rates using multi-group cross
-        sections is mathematically equivalent to tallying the reaction rates
-        directly. In transport-coupled depletion calculation, reaction rates
-        are tallied directly as:
+        Calculating reactions rates using multi-group cross sections is
+        mathematically equivalent to tallying the reaction rates directly. In
+        transport-coupled depletion calculation, reaction rates are tallied
+        directly as:
         % verify this, I have a suspicion we may need density and volume in there as well
         \begin{equation}
+            \label{eq:cont-rxn-rate}
             r^j_{i} = \int_0^\infty \phi(E) \sigma^j_i(E) dE
         \end{equation}
         where $i$ and $j$ indicate the nuclide and reaction, respectively.
+            To perform depletion using multi-group cross sections, the multi group
+        cross sections and fluxes are multiplied to get a per-source neutron
+        reaction rate:
+        \begin{equation}
+            \label{eq:mg-rxn-rate}
+            r^j_{i} = \sum_{g} \phi_{g} \sigma^{j}_{i,g} 
+        \end{equation}
+        calculation. In the limit of infinitely small energy groups,  OpenMC
 
-        These reaction rates are in units of reactions/src particle, so we need
-        a normalization factor $f$ in src/s to get reactions/s:
+        %% THIS DOESN'T MATCH WITH OPENMCs COMMENTS
+        Both the tallied and multi-group-calculated reaction rates have units of
+        $\frac{\text{reactions}}{\text{src particle}}$
+        A normalization factor $f$ in $\frac{\text{src}}{\text{s}}$ is applied
+        to obtain the more conventional unit of
+        $\frac{\text{reactions}}{\text{s}}$:
         \begin{equation}
             R^j_i = r^j_i * f
         \end{equation}
+        This normalization factor is typcially related to the power of the
+        reactor or external source strength.
 
-        In obtaining multi-group cross sections for a transport-independent
-        depletion, we would also compute the group-wise reaction rate
-        $r^j_{i,g}$ from a transport calculaton, as well as the group-averaged
-        flux (in units of particle-cm / src):
-        \begin{equation}
-            \bar{\phi}_{g} = \int_{E_{g}}^{E_{g-1}} \phi(E) dE
-        \end{equation}
-        and then compute the multi-group macroscopic cross section:
-        \begin{equation}
-            \bar{\Sigma}^j_{i,g} = \frac{r^j_{i,g}}{\bar{\phi}_{g}}
-        \end{equation}
-        Notice that the src unit cancels out, leaving us with $cm^{-1}$, which
-        are indeed the correct units.
-
-        When we go to compute reaction rates, we use the equation 
-
-        \begin{equation}
-            R^j_i = \sum_{g} \bar{\phi'}_{g} \bar\Sigma^j_{i,g} = \sum_{g}
-            r^j_{i,g}\frac{\bar{\phi'}}{\bar{\phi}} = r^j_i f
-        \end{equation}
-        where $\bar{\phi'}$ is the `true' neutron flux. By inspection, we can
-        see that $f$ has the correct units of src/s. It follows that using a
-        single energy group and energy-averaged flux to calculate reaction rates
-        is mathematically equivalent to the statistical tallying of reaction
-        rates.
-
-            
     \subsection{IndependentOperator}
-        The \verb.IndependentOperator. class uses an instance of the
+        The \verb.Operator. class was refactored into a \verb.CoupledOperator.
+        class maintaining the existing depletion cabability, and the
+        transport-independent depletion machinery was implemented into a new
+        class, \verb.IndepednentOperator. which uses an instance of the
         \verb.MicroXS. class to calculate the reaction rates using one-group
         microscopic cross sections via the following equation:
         \begin{equation}
@@ -84,6 +76,16 @@
         that can calculate one-group microscopic cross-sections. After some
         slight modifications to the existing OpenMC API, only these two classes
         are needed to perform transport independent depletion.
+
+        Unlike \verb.CoupledOperator., \verb.IndependentOperator. cannot use the
+        full range of helper classes for calcultating fission yields,
+        normalizing the tally results, and computing reaction rates. Reaction
+        rates are computed as described in Section \ref{sub:microxs}, whereas
+        fission yields are computed from yield data in the provided chain file.
+        The reaction rates are normalized from
+        $\frac{\text{reactions}}{\text{src}}\frac{\text{b-cm}}{\text{atom}}$ to
+        $\frac{\text{reactions}}{\text{atom-s}}$ using the\ldots
+        
 
         Multi-group fluxes should be normalized. They can then be freely scaled
         by any source rate.
