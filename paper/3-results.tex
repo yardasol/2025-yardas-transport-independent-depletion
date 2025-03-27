@@ -1,44 +1,40 @@
 \section{Results}\label{sec:results}
     To validate this new feature, we performed a parameter scan study on a PWR
-    pincell geometry.  Table \ref{tab:mat-params} contains the material
-    parameters of our model, and Table \ref{tab:geo-params} contains the
-    geometric parameters.
-
-    We used the ENDF/B-VII.1 nuclear data library available at
-    \url{openmc.org/official-data-libraries}. We used the ENDF/B-VII.1 depletion
-    chain in the PWR spectrum available at \url{openmc.org/depletion-chains}.
+    pincell using a single depletion zone. Table \ref{tab:mat-params} contains
+    the material parameters of our model, and Table \ref{tab:geo-params}
+    contains the geometric parameters.  We used the ENDF/B-VII.1 nuclear data
+    library available at \url{openmc.org/official-data-libraries}. We used the
+    ENDF/B-VII.1 depletion chain in the PWR spectrum available at
+    \url{openmc.org/depletion-chains}.
     
-    \begin{table}
-        \caption{Material Parameters}\label{tab:mat-params}
-        \begin{tabular*}{\tblwidth}{|c|c|c|c|}
-            \hline
+    \begin{table}[<options>]
+        \caption{Material Parameters}
+        \label{tab:mat-params}
+        \begin{tabular*}{\tblwidth}{@{}LLLL@{}}
+            \toprule
              Item & Fuel & Cladding & Water \\ % Table header row
-            \hline
+            \midrule
              Density [g/cc] & 10.4 & 6 & 1.0\\
              Volume [cc] & 0.1764$\pi$ & & \\
              S($\alpha$,$\beta$) &  & & \verb.c_H_in_H2O.\\
-            \hline
+            \bottomrule
         \end{tabular*}
     \end{table}
     
     \begin{table}[<options>]
         \caption{Geometric Parameters}\label{tab:geo-params}
-        \begin{tabular*}{\tblwidth}{|c|c|c|}
-            \hline
+        \begin{tabular*}{\tblwidth}{@{}LLLL@{}}
+            \toprule
             Fuel Radius & Clad Radius & Water Bounding Box dimensions\\
-            \hline
+            \midrule
             0.42 & 0.45 &  1.24 $\times$ 1.24\\
-            \hline
+            \bottomrule
         \end{tabular*}
     \end{table}
-
-
     We used timestep size, depletion timestepper, and normalization method as
-    our parameters to vary.
-
-    Table \ref{tab:timestep-shorthands} shows the different timestep sizes we
-    used and their shorthand terminology. All simulations ran for 10 depletion
-    steps.
+    our parameters to vary. Table \ref{tab:timestep-shorthands} shows the
+    different timestep sizes we used and their shorthand terminology. All
+    simulations ran for 10 depletion steps.
 
     \begin{table}[<options>]
         \caption{}\label{tab:timestep-shorthands}
@@ -55,54 +51,36 @@
     \end{table}
     
     We used two different depletion timesteppers: \verb.PredictorIntegrator.,
-    analagous to Gauss' method, and \verb.CECMIntegrator., a predcitor-corrector
+    analagous to Gauss' method, and \verb.CECMIntegrator., a predictor-corrector
     extension of Gauss' method.
-
-    The last parameter, determines how neutron flux is calculated, and we also
-    had two values for this: \verb.fission-q. normalization, and
-    \verb.source-rate. normalization. \verb.fission-q. normalization uses
-    fission Q  values in the depletion chain to calculate the flux. For the
-    \verb.IndependentOperator. class, the equation used to calculate the flux
-    using fission Q values is
-
-    \begin{equation}
-        \bar{\phi'} = \frac{P}{\sum\limits_i (Q_i \bar{\sigma}^f_i N_i)}
-    \end{equation}
-
-    where $P$ is the power, $Q_i$ is the fission Q value for nuclide $i$,
-    $\bar{\sigma}_i^f$ is the one-group microscopic fission cross section for
-    nuclide $i$, and $N_i$ is the number of atoms of nuclide $i$.
-
-    \verb.source-rate. normalization uses a constant flux value to calculate the
-    reaction rates. We caclulated the flux based on the initial material
-    composition of the PWR pincell to be 1164719970082145.0 n/cm$^2$-s
-
+    We used \verb.fission-q. normalization for all cases with a linear power
+    density of 174 W/cm.
     For each parameter combination, we ran with three cases:
     \begin{enumerate}
         \item Transport-coupled depletion
         \item Transport-independent depletion
         \item Transport-independent depletion with microscopic cross sections
-            updated after each depletion step.
+            updated after each depletion step (one-group only).
     \end{enumerate}
 
     For the first case, we used 25 inactive and 125 active batches, with 1e6
-    particles per batch.
+    particles per batch. 
+    For transport independent depletion, we used three different group
+    strucutres to test the effect on the accuracy: one group, CASMO-8, and
+    CASMO-40.
 
-    We wrote a custom script to run the the third case. It should be noted that
-    the third case is significantly slower than using transport-coupled depletion
-    as the cross sections need to be reloaded after each depletion step due to how
-    we wrote the script.
+    It should be noted that the third case is significantly slower than using
+    transport-coupled depletion as the cross sections need to be reloaded after
+    each depletion step. 
 
-    Three cases and 16 parameter combinations gives 48 simulations total. All
-    depletion simulations used a linear power density of 174 W/cm.
-
+    Three cases and 16 parameter combinations gives 48 simulations total.
     To avoid a prohibitvely long paper, we will only show a subset of the
     results for each parameter. Unless otherwise specified, all results are
-    using 3 day timesteps, \verb.fission-q. normalization, and
-    \verb.PredictorIntegrator.  The general trend is that errors are smaller for
+    using 3 day timesteps, and \verb.PredictorIntegrator.  The general trend is
+    that errors are smaller for
     shorter depletion timesteps, and larger for longer depletion timesteps.
     Interested readers can find the full results -- including figure geneartion
-    scripts for all cases --  \ldots
+    scripts for all cases -- at (LINK TO GITHUB REPO)
 
     %TODO: Get the external data repo set up!!
 
