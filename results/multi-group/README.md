@@ -20,3 +20,9 @@ created, for example, for the `CASMO-8` group, results will be stored in the
 
 There is a `GRPS` array in the `run_cases.sh` script. You will need to run the
 setup script for each entry you want to run depletion for.
+
+### Analyzing results and generating figures
+The `compare-results.ipynb` notebook contains machinery for investigating the
+reaction rate and nuclide concentration timeseries data. The
+`plot_barcharst.ipynb` notebook contains machinery for generating figures used
+in publications.
