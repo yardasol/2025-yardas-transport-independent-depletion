@@ -31,11 +31,10 @@
             \bottomrule
         \end{tabular*}
     \end{table}
-    We used timestep size, depletion timestepper, and normalization method as
-    our parameters to vary. Table \ref{tab:timestep-shorthands} shows the
-    different timestep sizes we used and their shorthand terminology. All
-    simulations ran for 10 depletion steps.
-
+    We used timestep size and depletion timestepper as our parameters to vary.
+    Table \ref{tab:timestep-shorthands} shows the different timestep sizes we
+    used and their shorthand terminology. All simulations ran for 10 depletion
+    steps.
     \begin{table}[<options>]
         \caption{}\label{tab:timestep-shorthands}
         \begin{tabular*}{\tblwidth}{@{}LL@{}}
@@ -49,13 +48,11 @@
             \bottomrule
         \end{tabular*}
     \end{table}
-    
     We used two different depletion timesteppers: \verb.PredictorIntegrator.,
     analagous to Gauss' method, and \verb.CECMIntegrator., a predictor-corrector
-    extension of Gauss' method.
-    We used \verb.fission-q. normalization for all cases with a linear power
-    density of 174 W/cm.
-    For each parameter combination, we ran with three cases:
+    extension of Gauss' method.  We used \verb.fission-q. normalization for all
+    cases with a linear power density of 174 W/cm.  For each parameter
+    combination, we ran with three cases:
     \begin{enumerate}
         \item Transport-coupled depletion
         \item Transport-independent depletion
@@ -64,25 +61,22 @@
     \end{enumerate}
 
     For the first case, we used 25 inactive and 125 active batches, with 1e6
-    particles per batch. 
-    For transport independent depletion, we used three different group
-    strucutres to test the effect on the accuracy: one group, CASMO-8, and
-    CASMO-40.
+    particles per batch.  For transport independent depletion, we used three
+    different group strucutres to test the effect on the accuracy: one group,
+    CASMO-8, and CASMO-40.
 
     It should be noted that the third case is significantly slower than using
     transport-coupled depletion as the cross sections need to be reloaded after
-    each depletion step. 
-
-    Three cases and 16 parameter combinations gives 48 simulations total.
-    To avoid a prohibitvely long paper, we will only show a subset of the
-    results for each parameter. Unless otherwise specified, all results are
-    using 3 day timesteps, and \verb.PredictorIntegrator.  The general trend is
-    that errors are smaller for
+    each depletion step. The third case was only run for one-group
+    transport-independent depletion. To avoid a prohibitvely long paper, we will
+    only show a subset of the results for each parameter. Unless otherwise
+    specified, all results are using 3 day timesteps, and
+    \verb.PredictorIntegrator.  The general trend is that errors are smaller for
     shorter depletion timesteps, and larger for longer depletion timesteps.
     Interested readers can find the full results -- including figure geneartion
-    scripts for all cases -- at (LINK TO GITHUB REPO)
+    scripts for all cases -- at 10.5281/zenodo.15103043.
 
-    %TODO: Get the external data repo set up!!
+    %TODO: PUBLISH THE EXTERNAL DATA REPO
 
     % actinides error 
 
@@ -92,7 +86,6 @@
         \caption[]{Actinide error in the fuel using constant cross sections.}
         \label{fig:actinides-error-constant-xs}
     \end{figure}
-
     Figures \ref{fig:actinides-error-constant-xs} and
     \ref{fig:actinides-error-updating-xs} show the relative error for actinides
     using constant cross sections and updating cross sections, respectively.  As
@@ -100,21 +93,16 @@
     low errors, on the order of a fraction of a percent.  Using constant cross
     sections, the errors may be very low (5\% or less) or very high (more than
     10\%) depending on the nuclide of interest.
-
     \begin{figure}[htpb]
         \centering
         \includegraphics[width=\linewidth]{figs/actinides_updating_xs_predictor_fission_q_days.pdf}
         \caption[]{Actinide error in the fuel using updating cross sections}
         \label{fig:actinides-error-updating-xs}
     \end{figure}
-    
     We suspect that the errors for isotopes of \ce{Am} and \ce{Cm} are so high
     are due to their extremely low composition in the fuel.
     %expand on this?
-
-
     % fission products error
-
     \begin{figure}[h!tpb]
         \centering
         \includegraphics[width=\linewidth]{figs/fission_products_constant_xs_predictor_fission_q_days.pdf}
@@ -125,7 +113,6 @@
     Figures \ref{fig:fp-error-constant-xs} and \ref{fig:fp-error-updating-xs}
     show the relative error for fission products using constant cross sections
     and updating cross sections, respectively.
-
     Similar to the actinides, updating the cross sections at each depletion step
     results in errors in the nuclide compositions  that are fractions of
     percents. However, unlike the actinides, the errors when using constant
@@ -173,12 +160,14 @@
     \ref{fig:actinides-error-constant-xs}. The same is true for the fission
     products.
 
-    Finally, a word on runtime; unfortunately, a bug present in the code during
-    our study prevented collection of exact runtimes that would normally be
-    stored in the statepoint files. Based on our time developing and testing
-    this code, as well as running the simulations, the time savings when using
-    \verb.IndependentOperator. are immense. Whereas the transport-coupled
-    simulations each took several hours to complete, the transport-independent
-    simulations took seconds to minutes to complete!
+    Repeating this analysis for both the CASMO-8 and CASMO-40 multi-group
+    strucutres did not yield significant decereases in error for
+    transport-independent depletion over the one-group case. It is possible in
+    more complication models, like full reactor depletion, that the multi-group
+    strucutre will become more important..
+
+    The time savings when using \verb.IndependentOperator. are immense. Whereas
+    the transport-coupled simulations each took several hours to complete, the
+    transport-independent simulations took seconds to minutes to complete!
 
 
