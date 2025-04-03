@@ -24,7 +24,7 @@
         n &\equiv \text{total number of nuclides.}
       \end{split}
     \end{equation*}
-    The summations in Equation \ref{eq:depletion} are effecitvely over all
+    The summations in Equation \ref{eq:depletion} are effectively over all
     nuclides excecpt $i$, as $f_{i \rightarrow i}(E)$ and $\lambda_{i \rightarrow i}$ must
     be zero by definition. Equation \ref{eq:depletion} can be condensed into a
     matrix-vector equation:
@@ -40,7 +40,7 @@
     matrix containing the decay and transmutation coefficients. The coefficients
     of $\vect{A}$ change with time and depend themselves on the nuclide
     composition vector $\vect{n}$, making this a nonlinear system of equations.
-    Solving this system non-trivial, but it is outside the scope of this paper.
+    Solving this system is non-trivial, but it is outside the scope of this paper.
     Note that the burnup matrix depends on $\vect{n}$ because the solution to
     the transport equation depends on the nuclide densities, thereby making
     Equation \ref{eq:depletion-matrix-t} nonlinear. A full breakdown of the
@@ -62,8 +62,8 @@
         export \verb.MicroXS. objects from \verb,.csv, files. In principle, a
         user could create multi-group microscopic cross sections with a
         transport solver code, and then use the \verb.MicroXS.  class to read in
-        the cross section data for use in depletion, however this is unnecessary
-        as the \verb.get_microxs_and_flux(). function allows easy creation
+        the cross section data for use in depletion. However, this is unnecessary
+        as the \verb.get_microxs_and_flux(). function enables easy creation of
         multiple \verb.MicroXS. objects and multi-group flux profiles for the
         user-specified domains.
 
@@ -77,7 +77,7 @@
         The \verb.Operator. class was refactored into a \verb.CoupledOperator.
         class maintaining the existing depletion cabability, and the
         transport-independent depletion machinery was implemented into a new
-        class, \verb.IndepednentOperator. which uses an instance of the
+        class, \verb.IndependentOperator. which uses an instance of the
         \verb.MicroXS. class and corresponding fluxes for each depletion domain
         to calculate reaction rates for that domain using multi-group microscopic
         cross sections.
@@ -92,7 +92,7 @@
             N_{i}(t)
         \end{equation}
         where $i$ and $j$ indicate the nuclide and reaction, respectively.
-            To perform depletion using multi-group cross sections, the multi group
+            To perform depletion using multi-group cross sections, the multi-group
         cross sections and fluxes are multiplied to get a per-source neutron
         reaction rate:
         \begin{equation}
@@ -110,7 +110,7 @@
 
         %% THIS DOESN'T MATCH WITH OPENMCs COMMENTS
         Both the tallied and multi-group-calculated reaction rates have units of
-        $\frac{\text{reactions}}{\text{src particle}}$ A normalization factor
+        $\frac{\text{reactions}}{\text{src particle}}$. A normalization factor
         $f$ in $\frac{\text{src}}{\text{s}}$ is applied to obtain the more
         conventional unit of $\frac{\text{reactions}}{\text{s}}$:
         \begin{equation}
@@ -122,6 +122,6 @@
         normalization). \verb.IndependentOperator. may use either of these methods to normalize
         the reaction rates. normalizing the tally results, and computing
         reaction rates. While \verb.CoupledOperator. may use several methods to
-        calculate fission yields, including using the monte carlo simulation to
+        calculate fission yields, including using the Monte Carlo simulation to
         directly tally fission yields, \verb.IndependentOperator. relies on
         constant yield data included in the depletion chain file.

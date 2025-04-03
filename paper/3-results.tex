@@ -49,8 +49,8 @@
         \end{tabular*}
     \end{table}
     We used two different depletion timesteppers: \verb.PredictorIntegrator.,
-    analagous to Gauss' method, and \verb.CECMIntegrator., a predictor-corrector
-    extension of Gauss' method.  We used \verb.fission-q. normalization for all
+    analagous to the Euler method, and \verb.CECMIntegrator., a predictor-corrector
+    extension of the Euler method.  We used \verb.fission-q. normalization for all
     cases with a linear power density of 174 W/cm.  For each parameter
     combination, we ran with three cases:
     \begin{enumerate}
@@ -60,7 +60,7 @@
             updated after each depletion step (one-group only).
     \end{enumerate}
 
-    For the first case, we used 25 inactive and 125 active batches, with 1e6
+    For the first case, we used 25 inactive and 125 active batches, with $10^6$
     particles per batch.  For transport independent depletion, we used three
     different group strucutres to test the effect on the accuracy: one group,
     CASMO-8, and CASMO-40.
