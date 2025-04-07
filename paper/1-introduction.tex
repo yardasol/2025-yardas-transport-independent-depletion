@@ -40,8 +40,15 @@
 
     In a reactor depletion calculation, there is a tight coupling between
     neutron transport and depletion because the change in material composition
-    can result in changes to the spatial distribution of reaction rates.
-    However, for other applications, the coupling between neutron transport and
+    can result in changes to the spatial distribution of reaction rates. This
+    limits the practical application of transport-independent depletion to
+    domains where capturing spatial effects are a secondary concern. One
+    such application is in global fuel-cycle analysis where we are more
+    concerned with the overall change in material composition. Fuel cycle
+    simulations typically model many different reactors simultaneously over
+    long time periods. Performing transport-coupled depletions for each reactor
+    at each timestep would be much more expensive than using transport-coupled
+    depletion. However, for other applications, the coupling between neutron transport and
     depletion is effectively one-way. This is often the case for experimental
     facilities with a neutron source where the source rate is high enough to
     cause activation of materials but not high enough to produce significant

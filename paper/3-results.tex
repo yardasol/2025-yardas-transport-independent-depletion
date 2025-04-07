@@ -1,6 +1,7 @@
 \section{Results}\label{sec:results}
     To validate this new feature, we performed a parameter scan study on a PWR
-    pincell using a single depletion zone. Table \ref{tab:mat-params} contains
+    pincell using a single depletion zone. Tables \ref{tab:mat-params},
+    \ref{tab:fuel-comp}, \ref{tab:clad-comp}, and \ref{tab:water-comp} contain
     the material parameters of our model, and Table \ref{tab:geo-params}
     contains the geometric parameters.  We used the ENDF/B-VII.1 nuclear data
     library available at \url{openmc.org/official-data-libraries}. We used the
@@ -20,7 +21,55 @@
             \bottomrule
         \end{tabular*}
     \end{table}
-    
+
+    \begin{table}[<options>]
+        \caption{Fuel Composition}
+        \label{tab:fuel-comp}
+        \begin{tabular*}{\tblwidth}{@{}LL@{}}
+            \toprule
+            Nuclide & Composition [at-\%] \\ % Table header row
+            \midrule
+             O$^{15}$ & 0.000758 \\
+             O$^{16}$ & 1.999242 \\
+             U$^{234}$ & 0.000385 \\
+             U$^{235}$ & 0.043020 \\
+             U$^{236}$ & 0.000197 \\ 
+             U$^{238}$ & 0.956398 \\
+             \bottomrule
+        \end{tabular*}
+    \end{table}
+
+    \begin{table}[<options>]
+        \caption{Cladding Composition}
+        \label{tab:clad-comp}
+        \begin{tabular*}{\tblwidth}{@{}LL@{}}
+            \toprule
+            Nuclide & Composition [at-\%] \\ % Table header row
+            \midrule
+             Zr$^{90}$ & 0.5145 \\
+             Zr$^{91}$ & 0.1122 \\
+             Zr$^{92}$ & 0.1715 \\
+             Zr$^{94}$ & 0.1738 \\
+             Zr$^{96}$ & 0.028 \\ 
+             \bottomrule
+        \end{tabular*}
+    \end{table}
+
+    \begin{table}[<options>]
+        \caption{Water Composition}
+        \label{tab:water-comp}
+        \begin{tabular*}{\tblwidth}{@{}LL@{}}
+            \toprule
+            Nuclide & Composition [at-\%] \\ % Table header row
+            \midrule
+             H$^{1}$ & 1.999689\\
+             H$^{2}$ & 0.000311 \\
+             O$^{15}$ & 0.999621 \\
+             O$^{16}$ & 0.000379 \\
+             \bottomrule
+        \end{tabular*}
+    \end{table}
+
     \begin{table}[<options>]
         \caption{Geometric Parameters}\label{tab:geo-params}
         \begin{tabular*}{\tblwidth}{@{}LLLL@{}}
@@ -73,8 +122,6 @@
     specified, all results are using 3 day timesteps, and
     \verb.PredictorIntegrator.  The general trend is that errors are smaller for
     shorter depletion timesteps, and larger for longer depletion timesteps.
-    Interested readers can find the full results -- including figure geneartion
-    scripts for all cases -- at 10.5281/zenodo.15103043.
 
     %TODO: PUBLISH THE EXTERNAL DATA REPO
 
@@ -99,8 +146,8 @@
         \caption[]{Actinide error in the fuel using updating cross sections}
         \label{fig:actinides-error-updating-xs}
     \end{figure}
-    We suspect that the errors for isotopes of \ce{Am} and \ce{Cm} are so high
-    are due to their extremely low composition in the fuel.
+    The relative errors for isotopes of \ce{Am} and \ce{Cm} are high
+    due to their extremely low composition in the fuel.
     %expand on this?
     % fission products error
     \begin{figure}[h!tpb]
@@ -128,7 +175,7 @@
     \begin{figure}[htpb]
         \centering
         \includegraphics[width=\linewidth]{figs/fission_products_updating_xs_predictor_fission_q_days.pdf}
-        \caption{Fission product error using  updating cross sections}
+        \caption{Fission product error using updating cross sections}
         \label{fig:fp-error-updating-xs}
     \end{figure}
 
@@ -146,19 +193,6 @@
     \ref{fig:actinides-error-constant-xs} we do not see a significant difference
     in the error. For certain nuclides, the \verb.CECM. integrator appears to
     perform worse. We see a similar pattern for the fission products.
-
-    \begin{figure}[htpb]
-        \centering
-        \includegraphics[width=\linewidth]{figs/actinides_constant_xs_predictor_source_rate_days.pdf}
-        \caption{Actinide error using explicit value for the flux}
-        \label{fig:actinides-error-source}
-    \end{figure}
-
-    Figure \ref{fig:actinides-error-source} shows the error for actinides using
-    the flux we calculated from the initial material composition. These results
-    do not differ significantly from the results in Figure
-    \ref{fig:actinides-error-constant-xs}. The same is true for the fission
-    products.
 
     Repeating this analysis for both the CASMO-8 and CASMO-40 multi-group
     strucutres did not yield significant decereases in error for
