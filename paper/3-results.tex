@@ -29,12 +29,12 @@
             \toprule
             Nuclide & Composition [at-\%] \\ % Table header row
             \midrule
-             O$^{15}$ & 0.000758 \\
-             O$^{16}$ & 1.999242 \\
-             U$^{234}$ & 0.000385 \\
-             U$^{235}$ & 0.043020 \\
-             U$^{236}$ & 0.000197 \\ 
-             U$^{238}$ & 0.956398 \\
+             $^{15}$O & 0.000758 \\
+             $^{16}$O & 1.999242 \\
+             $^{234}$U & 0.000385 \\
+             $^{235}$U & 0.043020 \\
+             $^{236}$U & 0.000197 \\ 
+             $^{238}$U & 0.956398 \\
              \bottomrule
         \end{tabular*}
     \end{table}
@@ -46,11 +46,11 @@
             \toprule
             Nuclide & Composition [at-\%] \\ % Table header row
             \midrule
-             Zr$^{90}$ & 0.5145 \\
-             Zr$^{91}$ & 0.1122 \\
-             Zr$^{92}$ & 0.1715 \\
-             Zr$^{94}$ & 0.1738 \\
-             Zr$^{96}$ & 0.028 \\ 
+             $^{90}$Zr & 0.5145 \\
+             $^{91}$Zr & 0.1122 \\
+             $^{92}$Zr & 0.1715 \\
+             $^{94}$Zr & 0.1738 \\
+             $^{96}$Zr & 0.028 \\ 
              \bottomrule
         \end{tabular*}
     \end{table}
@@ -62,10 +62,10 @@
             \toprule
             Nuclide & Composition [at-\%] \\ % Table header row
             \midrule
-             H$^{1}$ & 1.999689\\
-             H$^{2}$ & 0.000311 \\
-             O$^{15}$ & 0.999621 \\
-             O$^{16}$ & 0.000379 \\
+             $^{1}$H & 1.999689\\
+             $^{2}$H & 0.000311 \\
+             $^{15}$O & 0.999621 \\
+             $^{16}$O & 0.000379 \\
              \bottomrule
         \end{tabular*}
     \end{table}
@@ -156,28 +156,28 @@
     each depletion step results in very low errors, on the order of a fraction
     of a percent. The error trend for constant cross sections depends both on
     the cross section and time step size. For example, constant cross sections
-    using a 3-day time step underpredicts the \ce{Pu^{241}} concentration, but at
+    using a 3-day time step underpredicts the \ce{^{241}Pu} concentration, but at
     longer time steps overpredicts the concentration. The overprediction is due
     due to overcalculating the rate of ($n,\gamma$) reactions that occur on
-    \ce{Pu^{240}}. Figure \ref{fig:pu240-n-gamma-months} shows this.
+    \ce{^{240}Pu}. Figure \ref{fig:pu240-n-gamma-months} shows this.
 
     \begin{figure}[htpb]
         \centering
         \includegraphics[width=\linewidth]{figs/pu240-n-gamma-months.pdf}
-        \caption{Relative error of predicted \ce{Pu^{240}} ($n,\gamma$)
+        \caption{Relative error of predicted \ce{^{240}Pu} ($n,\gamma$)
             reactions using constant cross sections and 30-day time steps}
         \label{fig:pu240-n-gamma-months}
     \end{figure}
 
-    The error timeseries of \ce{Pu^{241}} is reproduced in daughter nuclides
-    that are related to the amount of \ce{Pu^{241}}, such as Cm and Am. We
+    The error timeseries of \ce{^{241}Pu} is reproduced in daughter nuclides
+    that are related to the amount of \ce{^{241}Pu}, such as Cm and Am. We
     observe a general trend for the actinides that the less important or
     abundant a actinides have higher concentration error relative to
     transport-coupled depletion. The less abundant actinides have increased
     sensitivity to over or underestimations of production.  The more important
-    nuclides (\ce{U}, \ce{Np^{239}}, \ce{Pu^{239}}, \ce{Pu^{240}}) tend to have
+    nuclides (\ce{U}, \ce{^{239}Np}, \ce{^{239}Pu}, \ce{^{240}Pu}) tend to have
     low concentration errors, (5\% or less), whereas the less important
-    actinides (Am, Cm, \ce{Pu^{241}}, \ce{Pu^{242}}) tend to have very high
+    actinides (Am, Cm, \ce{^{241}Pu}, \ce{^{242}Pu}) tend to have very high
     (more than 10\%) depending on the nuclide of interest.
 
     \begin{figure}[htpb]
@@ -197,23 +197,25 @@
     \end{figure}
 
 
-
-        
     Figures \ref{fig:fp-error-constant-xs-days} and
-    \ref{fig:fp-error-updating-xs-days}
-    show the relative error for fission products using constant cross sections
-    and updating cross sections, respectively.
-    Similar to the actinides, updating the cross sections at each depletion step
-    results in errors in the nuclide compositions  that are fractions of
-    percents. However, unlike the actinides, the errors when using constant
-    cross sections are all relavtively low, with the largest error being under
-    3\%. A majority of our fissile material is uranium, specifically
-    \ce{^{235}U}, and the error for that nuclide is so low that it doesn't even
-    show on Figure \ref{fig:actinides-error-constant-xs-days}. It follows that the
-    majority of our fission products come from \ce{^{235}U} in a composition
-    that is equally low in error. The other actinides are present in amounts
-    with higher error, but in very low quantities, so their effect on the error
-    of the fission product compositions is proportionaly small.
+    \ref{fig:fp-error-updating-xs-days} show the relative error for fission
+    products using constant cross sections and updating cross sections,
+    respectively, using 3-day time steps. Figures
+    \ref{fig:fp-error-constant-xs-months} and
+    \ref{fig:fp-error-updating-xs-months} show the same respective quantities
+    for 30-day time steps. Similar to the actinides, updating the cross sections
+    at each time step results in very low nuclide composition errors. There is a
+    notably lower error across the board for many of these fission products
+    compared to the actinides. This can simply be explained by the low
+    composition error of \ce{^{235}U}. The majority of the fissile material in
+    the fuel is \ce{^{235}U}, so the composition error of fission products
+    produced should also be relatively low. Other actinides with higher
+    composition errors are orders of magnitude less abundant in the fuel, so
+    their effect on fission product composition error is proportionaly small.
+
+    For the 30-day timesteps, we see an interesting trend in the heavier fission
+    producst where there underestimations of nuclide composition decreases as
+    time goes on. (EXPAND ON THIS, LOOK AT THE NUCLIDES)
 
 % fission products error
     \begin{figure}[h!tpb]
@@ -251,14 +253,51 @@
 
     Repeating this analysis for both the CASMO-8 and CASMO-40 multi-group
     strucutres did not yield significant decreases in error for
-    transport-independent depletion over the one-group case.
+    transport-independent depletion over the one-group case.  Figures
+    \ref{fig:actinides-error-casmo8-xs-days} and
+    \ref{fig:actinides-error-casmo40-xs-days} show the relative error for
+    fission products using the CASMO-8 and CASMO-40 group structures,
+    respectively, using 3-day time steps. Figures
+    \ref{fig:actinides-error-casmo8-xs-months} and
+    \ref{fig:actinides-error-casmo40-xs-months} show the same respective
+    quantities for 30-day time steps.  It is possible in more complication
+    models, like full reactor depletion, that the multi-group strucutre will
+    become more important. 
 
-    It is possible in
-    more complication models, like full reactor depletion, that the multi-group
-    strucutre will become more important..
+    \begin{figure}[h!tpb]
+        \centering
+        \includegraphics[width=\linewidth]{figs/actinides_casmo8_constant_xs_predictor_fission_q_days.pdf}
+        \caption[]{Relative error of predicted actinide concentrations using
+        CASMO-8 group structure and 3-day time steps}
+        \label{fig:actinides-error-casmo8-xs-days}
+    \end{figure}
+
+    \begin{figure}[h!tpb]
+        \centering
+        \includegraphics[width=\linewidth]{figs/actinides_casmo40_constant_xs_predictor_fission_q_days.pdf}
+        \caption{Relative error of predicted actinide error using
+        CASMO-40 group structure and 3-day time steps}
+        \label{fig:actinides-error-casmo40-xs-days}
+    \end{figure}
+
+    \begin{figure}[h!tpb]
+        \centering
+        \includegraphics[width=\linewidth]{figs/actinides_casmo8_constant_xs_predictor_fission_q_months.pdf}
+        \caption[]{Relative error of predicted actinide concentrations using
+        CASMO-8 group structure and 30-day time steps}
+        \label{fig:actinides-error-casmo8-xs-months}
+    \end{figure}
+
+    \begin{figure}[h!tpb]
+        \centering
+        \includegraphics[width=\linewidth]{figs/actinides_casmo40_constant_xs_predictor_fission_q_months.pdf}
+        \caption{Relative error of predicted actinide error using
+        CASMO-40 group structure and 30-day time steps}
+        \label{fig:actinides-error-casmo40-xs-months}
+    \end{figure}
+
+
 
     The time savings when using \verb.IndependentOperator. are immense. Whereas
     the transport-coupled simulations each took several hours to complete, the
     transport-independent simulations took seconds to minutes to complete!
-
-
