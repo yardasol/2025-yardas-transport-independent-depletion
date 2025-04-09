@@ -38,6 +38,8 @@
 \tsc{QE}
 %%%
 
+\newcommand{\vect}[1]{\mathbf{#1}} % vectors and matrices
+
 % Uncomment and use as if needed
 %\newtheorem{theorem}{Theorem}
 %\newtheorem{lemma}[theorem]{Lemma}
@@ -57,7 +59,8 @@
 \shortauthors{O. Yardas, P. Romano}
 
 % Main title of the paper
-\title [mode = title]{Extension of the OpenMC depletion module for indirect coupling with external transport solvers}
+\title [mode = title]{Extension of the OpenMC depletion module for
+transport-independent depletion}
 
 % Title footnote mark
 % eg: \tnotemark[1]
@@ -116,10 +119,7 @@
 \fnmark[2]
 
 % Email id of the second author
-\ead{promano@anl.gov}
-
-% URL of the second author
-%\ead[url]{}
+%\ead{promano@anl.gov}
 
 % Credit authorship
 \credit{Conceptualization, Methodology, Software, Funding acquisition, Writing - review and editing}
@@ -130,6 +130,45 @@
             city={Lemont},
 %          citysep={}, % Uncomment if no comma needed between city and postcode
             postcode={60439},
+            state={IL},
+            country={USA}}
+
+%\author[<aff no>]{<author name>}[<options>]
+\author{Madicken Munk}
+
+% Footnote of the second author
+\fnmark[3]
+
+% Email id of the second author
+%\ead{madicken.munk@oregonstate.edu}
+
+% Credit authorship
+\credit{Funding acquisition, Writing - review and editing}
+
+\affiliation[4]{organization={Dept. of Nuclear Science and Engineering, Oregon
+    State University},
+%            addressline={},
+            city={Corvallis},
+%          citysep={}, % Uncomment if no comma needed between city and postcode
+            postcode={97731},
+            state={OR},
+            country={USA}}
+
+%\author[<aff no>]{<author name>}[<options>]
+\author{Kathryn Huff}
+
+% Footnote of the second author
+% Email id of the second author
+%\ead{kdhuff@illinois.edu}
+
+% Credit authorship
+\credit{Funding acquisition, Writing - review and editing}
+
+\affiliation[4]{organization={Dept. of Nuclear, Plasma, and Radiological Engineering, University of Illinois Urbana-Champaign},
+%            addressline={},
+            city={Urbana},
+%          citysep={}, % Uncomment if no comma needed between city and postcode
+            postcode={61801},
             state={IL},
             country={USA}}
 
@@ -145,11 +184,11 @@
 % Here goes the abstract
 \begin{abstract}
     We have implemented a new method for running depletion simulations in OpenMC
-    that enables indirect coupling to any transport solver. The indirect
-    coupling relies on using transport codes to calculate multigroup  microscopic cross
-    sections. These microscopic cross sections are then used to calculate
-    reaction rates, which are used to deplete materials using
-    the existing algorithms in OpenMC's Python API.
+    that enables transport-independent depletion. This feature relies on using
+    OpenMC calculate multigroup cross sections and fluxes that are reused at
+    every depletion step. These reaction rates determined by the cross sections
+    and fluxes are used to deplete materials using the existing algorithms in
+    OpenMC's Python API.
 
     %% Rerun these cases with MG cases
     To validate this method, we ran simulations on a simple PWR pincell
@@ -159,7 +198,7 @@
     are all under 3\%. Actinide errors range from 10-15\% for \ce{Am} and
     \ce{Cm}, 5-7\% for \ce{Pu} and \ce{Np}, and 2\% and less for \ce{U}. The
     large errors for certain actinides can be attributed to their small
-    concentration and difficulty to produce accurately using one-group cross
+    concentration and difficulty to produce accurately using multi-group cross
     sections.
 
     Our results demonstrates the potential of this new method with moderate
@@ -254,6 +293,10 @@
 
 % To print the credit authorship contribution details
 \printcredits
+
+\section*{Data availability statement}
+The data that support the findings of this study are openly available at the
+following DOI: 10.5281/zenodo.15103043.
 
 %% Loading bibliography style file
 %\bibliographystyle{model1-num-names}

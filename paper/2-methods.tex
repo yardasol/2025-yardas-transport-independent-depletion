@@ -1,6 +1,53 @@
 \section{Methodology}
     \label{sec:methods}
-    We had two design goals for transport-independent depletion functionality:
+    Depletion is typically done in subregions that are small enough to have
+    little spatial variation in the flux (and hence in the reaction rates). For
+    example, in a full-core model, depletion regions may correspond to
+    individual pincells, or even smaller sub-pin regions of radial rings and
+    azimuthal segments. The general form of the equation governing depletion is
+    \begin{equation}
+      \label{eq:depletion}
+      \begin{split}
+        \frac{dN_i}{dt} = &\sum\limits_{j=1}^n \left[ \int_0^\infty 
+        f_{j \rightarrow i}(E) \sigma_j (E, t) \phi(E,t) dE \;+ \lambda_{j\rightarrow i}
+        \right] N_j(t) \\ &- \left [\int_0^\infty \sigma_i (E,t) \phi(E,t) dE \; +
+        \sum\limits_{j=1}^n \lambda_{i\rightarrow j} \right ] N_i(t),
+      \end{split}
+    \end{equation}
+    where
+    \begin{equation*}
+      \begin{split}
+        N_i(t) &\equiv \text{density of nuclide $i$ at time $t$} \\
+        \sigma_i(E,t) &\equiv \text{transmutation cross section for nuclide $i$ at energy $E$ and time $t$} \\
+        \phi(E,t) &\equiv \text{neutron flux at energy $E$ and time $t$} \\
+        f_{j \rightarrow i}(E) &\equiv \text{fraction of transmutation reactions in nuclide $j$ that produce nuclide $i$} \\
+        \lambda_{j \rightarrow i} &\equiv \text{decay constant for decay modes in nuclide $j$ that produce nuclide $i$} \\
+        n &\equiv \text{total number of nuclides.}
+      \end{split}
+    \end{equation*}
+    The summations in Equation \ref{eq:depletion} are effectively over all
+    nuclides excecpt $i$, as $f_{i \rightarrow i}(E)$ and $\lambda_{i \rightarrow i}$ must
+    be zero by definition. Equation \ref{eq:depletion} can be condensed into a
+    matrix-vector equation:
+    \begin{equation}
+      \label{eq:depletion-matrix-t}
+      \frac{d\vect{n}}{dt} = \vect{A}(\vect{n},t)\vect{n}
+    \end{equation}
+    where
+    \begin{equation}
+      \vect{n} = \begin{pmatrix} N_1 \\ N_2 \\ \vdots \\ N_n \end{pmatrix}, \quad
+    \end{equation}
+    and $\vect{A}(\vect{n},t) \in \mathbb{R}^{n\times n}$ is the depletion
+    matrix containing the decay and transmutation coefficients. The coefficients
+    of $\vect{A}$ change with time and depend themselves on the nuclide
+    composition vector $\vect{n}$, making this a nonlinear system of equations.
+    Solving this system is non-trivial, but it is outside the scope of this paper.
+    Note that the burnup matrix depends on $\vect{n}$ because the solution to
+    the transport equation depends on the nuclide densities, thereby making
+    Equation \ref{eq:depletion-matrix-t} nonlinear. A full breakdown of the
+    solution method as well as the existing depletion capabilities in OpenMC may
+    be found in \cite{romano_depletion_2021}.  We had two design goals for
+    transport-independent depletion functionality:
     \begin{itemize}
         \item Enable use of OpenMC depletion capabilities using only the Python API.
         \item Enable depletion of materials directly given a multi-group flux
@@ -9,7 +56,6 @@
     
     We created the \verb.IndependentOperator. and \verb.MicroXS. classes to
     achieve these design goals.    
-
     \subsection{MicroXS}
         \label{sub:microxs}
         The \verb.MicroXS. class contains cross-section data indexed by nuclide,
@@ -17,8 +63,8 @@
         export \verb.MicroXS. objects from \verb,.csv, files. In principle, a
         user could create multi-group microscopic cross sections with a
         transport solver code, and then use the \verb.MicroXS.  class to read in
-        the cross section data for use in depletion, however this is unnecessary
-        as the \verb.get_microxs_and_flux(). function allows easy creation
+        the cross section data for use in depletion. However, this is unnecessary
+        as the \verb.get_microxs_and_flux(). function enables easy creation of
         multiple \verb.MicroXS. objects and multi-group flux profiles for the
         user-specified domains.
 
@@ -27,66 +73,55 @@
         one-group structure. The v0.14.0 release removed the Pandas dependency
         and refactored \verb.MicroXS. class to store multi-group cross section
         data.
-        
-        Calculating reactions rates using multi-group cross sections is
-        mathematically equivalent to tallying the reaction rates directly. In
-        transport-coupled depletion calculation, reaction rates are tallied
-        directly as:
-        % verify this, I have a suspicion we may need density and volume in there as well
-        \begin{equation}
-            \label{eq:cont-rxn-rate}
-            r^j_{i} = \int_0^\infty \phi(E) \sigma^j_i(E) dE
-        \end{equation}
-        where $i$ and $j$ indicate the nuclide and reaction, respectively.
-            To perform depletion using multi-group cross sections, the multi group
-        cross sections and fluxes are multiplied to get a per-source neutron
-        reaction rate:
-        \begin{equation}
-            \label{eq:mg-rxn-rate}
-            r^j_{i} = \sum_{g} \phi_{g} \sigma^{j}_{i,g} 
-        \end{equation}
-        calculation. In the limit of infinitely small energy groups,  OpenMC
-
-        %% THIS DOESN'T MATCH WITH OPENMCs COMMENTS
-        Both the tallied and multi-group-calculated reaction rates have units of
-        $\frac{\text{reactions}}{\text{src particle}}$
-        A normalization factor $f$ in $\frac{\text{src}}{\text{s}}$ is applied
-        to obtain the more conventional unit of
-        $\frac{\text{reactions}}{\text{s}}$:
-        \begin{equation}
-            R^j_i = r^j_i * f
-        \end{equation}
-        This normalization factor is typcially related to the power of the
-        reactor or external source strength.
-
     \subsection{IndependentOperator}
         The \verb.Operator. class was refactored into a \verb.CoupledOperator.
         class maintaining the existing depletion cabability, and the
         transport-independent depletion machinery was implemented into a new
-        class, \verb.IndepednentOperator. which uses an instance of the
-        \verb.MicroXS. class to calculate the reaction rates using one-group
-        microscopic cross sections via the following equation:
+        class, \verb.IndependentOperator. which uses an instance of the
+        \verb.MicroXS. class and corresponding fluxes for each depletion domain
+        to calculate reaction rates for that domain using multi-group microscopic
+        cross sections.
+
+        Calculating reactions rates using multi-group cross sections is
+        mathematically equivalent to tallying the reaction rates directly. In
+        transport-coupled depletion calculation, the transmutation reaction
+        rates are tallied directly as:
         \begin{equation}
-            R^j_i = \bar{\phi'} \bar{\sigma}^j_i n_i V
+            \label{eq:cont-rxn-rate}
+            r_{i}(t) = \left[\int_0^\infty \sigma_i(E,t) \phi(E,t) dE \; \right]
+            N_{i}(t)
         \end{equation}
-        where $\sigma$ is the microscopic cross section, $n$ is the number
-        density [$at/cm^3$] and $V$ is the volume [$cm^3$]. The microscopic
-        cross sections are stored in a \verb.MicroXS. object which must be
-        provided the user. This opens up indirect coupling to any transport code
-        that can calculate one-group microscopic cross-sections. After some
-        slight modifications to the existing OpenMC API, only these two classes
-        are needed to perform transport independent depletion.
+        where $i$ and $j$ indicate the nuclide and reaction, respectively.
+            To perform depletion using multi-group cross sections, the multi-group
+        cross sections and fluxes are multiplied to get a per-source neutron
+        reaction rate:
+        \begin{equation}
+            \label{eq:mg-rxn-rate}
+            r_{i}(t) = \left[\sum_{g} \sigma_{i,g}(t) \phi_{g}(t) \right]
+            N_{i}(t) 
+        \end{equation}
+        calculation. In the limit of infinitely small energy groups, Equation
+        \ref{eq:mg-rxn-rate} is equivalent to \ref{eq:cont-rxn-rate}. In
+        practice, to get a time-dependent microscopic cross section or flux, we
+        must perform transport calculations (and in the case of time-varying
+        microscopic cross sections, incorporate thermal feedbacks). Herein lies
+        the primary assumption of transport-independent depletion: {\it
+        microscopic cross sections and reactor fluxes are static}.
 
-        Unlike \verb.CoupledOperator., \verb.IndependentOperator. cannot use the
-        full range of helper classes for calcultating fission yields,
-        normalizing the tally results, and computing reaction rates. Reaction
-        rates are computed as described in Section \ref{sub:microxs}, whereas
-        fission yields are computed from yield data in the provided chain file.
-        The reaction rates are normalized from
-        $\frac{\text{reactions}}{\text{src}}\frac{\text{b-cm}}{\text{atom}}$ to
-        $\frac{\text{reactions}}{\text{atom-s}}$ using the\ldots
-        
-
-        Multi-group fluxes should be normalized. They can then be freely scaled
-        by any source rate.
-
+        %% THIS DOESN'T MATCH WITH OPENMCs COMMENTS
+        Both the tallied and multi-group-calculated reaction rates have units of
+        $\frac{\text{reactions}}{\text{src particle}}$. A normalization factor
+        $f$ in $\frac{\text{src}}{\text{s}}$ is applied to obtain the more
+        conventional unit of $\frac{\text{reactions}}{\text{s}}$:
+        \begin{equation}
+            R_i = r_i * f
+        \end{equation}
+        This normalization factor is typcially related to the power of the
+        reactor and energy released from fission (\verb.fission-q.
+        normalization), or the external source strength (\verb.source-rate.
+        normalization). \verb.IndependentOperator. may use either of these methods to normalize
+        the reaction rates. normalizing the tally results, and computing
+        reaction rates. While \verb.CoupledOperator. may use several methods to
+        calculate fission yields, including using the Monte Carlo simulation to
+        directly tally fission yields, \verb.IndependentOperator. relies on
+        constant yield data included in the depletion chain file.

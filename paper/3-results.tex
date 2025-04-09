@@ -1,50 +1,94 @@
 \section{Results}\label{sec:results}
     To validate this new feature, we performed a parameter scan study on a PWR
-    pincell geometry.  Table \ref{tab:mat-params} contains the material
-    parameters of our model, and Table \ref{tab:geo-params} contains the
-    geometric parameters.
-
-    We used the ENDF/B-VII.1 nuclear data library available at
-    \url{openmc.org/official-data-libraries}. We used the ENDF/B-VII.1 depletion
-    chain in the PWR spectrum available at \url{openmc.org/depletion-chains}.
+    pincell using a single depletion zone. Tables \ref{tab:mat-params},
+    \ref{tab:fuel-comp}, \ref{tab:clad-comp}, and \ref{tab:water-comp} contain
+    the material parameters of our model, and Table \ref{tab:geo-params}
+    contains the geometric parameters.  We used the ENDF/B-VII.1 nuclear data
+    library available at \url{openmc.org/official-data-libraries}. We used the
+    ENDF/B-VII.1 depletion chain in the PWR spectrum available at
+    \url{openmc.org/depletion-chains}.
     
-    \begin{table}
-        \caption{Material Parameters}\label{tab:mat-params}
-        \begin{tabular*}{\tblwidth}{|c|c|c|c|}
-            \hline
+    \begin{table}[<options>]
+        \caption{Material Parameters}
+        \label{tab:mat-params}
+        \begin{tabular*}{\tblwidth}{@{}LLLL@{}}
+            \toprule
              Item & Fuel & Cladding & Water \\ % Table header row
-            \hline
+            \midrule
              Density [g/cc] & 10.4 & 6 & 1.0\\
              Volume [cc] & 0.1764$\pi$ & & \\
              S($\alpha$,$\beta$) &  & & \verb.c_H_in_H2O.\\
-            \hline
+            \bottomrule
         \end{tabular*}
     \end{table}
-    
+
+    \begin{table}[<options>]
+        \caption{Fuel Composition}
+        \label{tab:fuel-comp}
+        \begin{tabular*}{\tblwidth}{@{}LL@{}}
+            \toprule
+            Nuclide & Composition [at-\%] \\ % Table header row
+            \midrule
+             O$^{15}$ & 0.000758 \\
+             O$^{16}$ & 1.999242 \\
+             U$^{234}$ & 0.000385 \\
+             U$^{235}$ & 0.043020 \\
+             U$^{236}$ & 0.000197 \\ 
+             U$^{238}$ & 0.956398 \\
+             \bottomrule
+        \end{tabular*}
+    \end{table}
+
+    \begin{table}[<options>]
+        \caption{Cladding Composition}
+        \label{tab:clad-comp}
+        \begin{tabular*}{\tblwidth}{@{}LL@{}}
+            \toprule
+            Nuclide & Composition [at-\%] \\ % Table header row
+            \midrule
+             Zr$^{90}$ & 0.5145 \\
+             Zr$^{91}$ & 0.1122 \\
+             Zr$^{92}$ & 0.1715 \\
+             Zr$^{94}$ & 0.1738 \\
+             Zr$^{96}$ & 0.028 \\ 
+             \bottomrule
+        \end{tabular*}
+    \end{table}
+
+    \begin{table}[<options>]
+        \caption{Water Composition}
+        \label{tab:water-comp}
+        \begin{tabular*}{\tblwidth}{@{}LL@{}}
+            \toprule
+            Nuclide & Composition [at-\%] \\ % Table header row
+            \midrule
+             H$^{1}$ & 1.999689\\
+             H$^{2}$ & 0.000311 \\
+             O$^{15}$ & 0.999621 \\
+             O$^{16}$ & 0.000379 \\
+             \bottomrule
+        \end{tabular*}
+    \end{table}
+
     \begin{table}[<options>]
         \caption{Geometric Parameters}\label{tab:geo-params}
-        \begin{tabular*}{\tblwidth}{|c|c|c|}
-            \hline
+        \begin{tabular*}{\tblwidth}{@{}LLLL@{}}
+            \toprule
             Fuel Radius & Clad Radius & Water Bounding Box dimensions\\
-            \hline
+            \midrule
             0.42 & 0.45 &  1.24 $\times$ 1.24\\
-            \hline
+            \bottomrule
         \end{tabular*}
     \end{table}
-
-
-    We used timestep size, depletion timestepper, and normalization method as
-    our parameters to vary.
-
-    Table \ref{tab:timestep-shorthands} shows the different timestep sizes we
+    We used time step size and depletion timestepper as our parameters to vary.
+    Table \ref{tab:timestep-shorthands} shows the different time step sizes we
     used and their shorthand terminology. All simulations ran for 10 depletion
     steps.
-
     \begin{table}[<options>]
         \caption{}\label{tab:timestep-shorthands}
         \begin{tabular*}{\tblwidth}{@{}LL@{}}
             \toprule
-            Timestep sizes & Shorthand term \\ % Table header row
+            Time step sizes & Shorthand term \\ % Table header row
             \midrule
             360 seconds & Minutes\\
             4 hours & Hours\\
@@ -53,154 +97,168 @@
             \bottomrule
         \end{tabular*}
     \end{table}
-    
     We used two different depletion timesteppers: \verb.PredictorIntegrator.,
-    analagous to Gauss' method, and \verb.CECMIntegrator., a predcitor-corrector
-    extension of Gauss' method.
-
-    The last parameter, determines how neutron flux is calculated, and we also
-    had two values for this: \verb.fission-q. normalization, and
-    \verb.source-rate. normalization. \verb.fission-q. normalization uses
-    fission Q  values in the depletion chain to calculate the flux. For the
-    \verb.IndependentOperator. class, the equation used to calculate the flux
-    using fission Q values is
-
-    \begin{equation}
-        \bar{\phi'} = \frac{P}{\sum\limits_i (Q_i \bar{\sigma}^f_i N_i)}
-    \end{equation}
-
-    where $P$ is the power, $Q_i$ is the fission Q value for nuclide $i$,
-    $\bar{\sigma}_i^f$ is the one-group microscopic fission cross section for
-    nuclide $i$, and $N_i$ is the number of atoms of nuclide $i$.
-
-    \verb.source-rate. normalization uses a constant flux value to calculate the
-    reaction rates. We caclulated the flux based on the initial material
-    composition of the PWR pincell to be 1164719970082145.0 n/cm$^2$-s
-
-    For each parameter combination, we ran with three cases:
+    analagous to the Euler method. Predictor-corrector methods are not as useful
+    since there is no change in composition FINISH FLESHING THIS OUT.  We used \verb.fission-q. normalization for all
+    cases with a linear power density of 174 W/cm.  For each parameter
+    combination, we ran with three cases:
     \begin{enumerate}
         \item Transport-coupled depletion
         \item Transport-independent depletion
         \item Transport-independent depletion with microscopic cross sections
-            updated after each depletion step.
+            updated after each depletion step (one-group only).
     \end{enumerate}
 
-    For the first case, we used 25 inactive and 125 active batches, with 1e6
-    particles per batch.
+    For the first case, we used 25 inactive and 125 active batches, with $10^6$
+    particles per batch. For transport independent depletion, we used three
+    different group strucutres to test the effect on the accuracy: one group,
+    CASMO-8, and CASMO-40.
 
-    We wrote a custom script to run the the third case. It should be noted that
-    the third case is significantly slower than using transport-coupled depletion
-    as the cross sections need to be reloaded after each depletion step due to how
-    we wrote the script.
-
-    Three cases and 16 parameter combinations gives 48 simulations total. All
-    depletion simulations used a linear power density of 174 W/cm.
-
-    To avoid a prohibitvely long paper, we will only show a subset of the
-    results for each parameter. Unless otherwise specified, all results are
-    using 3 day timesteps, \verb.fission-q. normalization, and
-    \verb.PredictorIntegrator.  The general trend is that errors are smaller for
-    shorter depletion timesteps, and larger for longer depletion timesteps.
-    Interested readers can find the full results -- including figure geneartion
-    scripts for all cases --  \ldots
-
-    %TODO: Get the external data repo set up!!
+    It should be noted that the third case is significantly slower than using
+    transport-coupled depletion as the cross sections need to be reloaded after
+    each depletion step. Due to the cross section discretization that occurs
+    before peforming depletion, we do not expect the third case results to
+    converge to the first case results in limit of infinite particles. We would
+    expect the third case to converge in the limit of infinite particles and
+    energy groups. The third case was only run for one-group
+    transport-independent depletion. Unless otherwise
+    specified, all results are using 3-day time steps and
+    \verb.PredictorIntegrator. The general trend is that concentration errors
+    are smaller for shorter depletion time steps, and larger for longer
+    depletion time steps, however there are more complicated dynamics for this
+    to be a reliable prediction for each nuclide concentration.
 
     % actinides error 
 
     \begin{figure}[h!tpb]
         \centering
         \includegraphics[width=\linewidth]{figs/actinides_constant_xs_predictor_fission_q_days.pdf}
-        \caption[]{Actinide error in the fuel using constant cross sections.}
-        \label{fig:actinides-error-constant-xs}
+        \caption[]{Relative error of predicted actinide concentrations using
+        constant cross sections and 3-day time steps}
+        \label{fig:actinides-error-constant-xs-days}
     \end{figure}
 
-    Figures \ref{fig:actinides-error-constant-xs} and
-    \ref{fig:actinides-error-updating-xs} show the relative error for actinides
-    using constant cross sections and updating cross sections, respectively.  As
-    expected, updating the cross sections at each depletion step results in very
-    low errors, on the order of a fraction of a percent.  Using constant cross
-    sections, the errors may be very low (5\% or less) or very high (more than
-    10\%) depending on the nuclide of interest.
+    \begin{figure}[h!tpb]
+        \centering
+        \includegraphics[width=\linewidth]{figs/actinides_constant_xs_predictor_fission_q_months.pdf}
+        \caption{Relative error of predicted actinide error using
+        constant cross sections and 30-day time steps}
+        \label{fig:actinides-error-constant-xs-months}
+    \end{figure}
+
+    Figures \ref{fig:actinides-error-constant-xs-days} and
+    \ref{fig:actinides-error-updating-xs-days} show the relative error for
+    actinides using constant cross sections and updating cross sections,
+    respectively, using 3-day time steps. Figures
+    \ref{fig:actinides-error-constant-xs-months} and
+    \ref{fig:actinides-error-updating-xs-months} show the same respective
+    quantities for 30-day time steps. As expected, updating the cross sections at
+    each depletion step results in very low errors, on the order of a fraction
+    of a percent. The error trend for constant cross sections depends both on
+    the cross section and time step size. For example, constant cross sections
+    using a 3-day time step underpredicts the \ce{Pu^{241}} concentration, but at
+    longer time steps overpredicts the concentration. The overprediction is due
+    due to overcalculating the rate of ($n,\gamma$) reactions that occur on
+    \ce{Pu^{240}}. Figure \ref{fig:pu240-n-gamma-months} shows this.
+
+    \begin{figure}[htpb]
+        \centering
+        \includegraphics[width=\linewidth]{figs/pu240-n-gamma-months.pdf}
+        \caption{Relative error of predicted \ce{Pu^{240}} ($n,\gamma$)
+            reactions using constant cross sections and 30-day time steps}
+        \label{fig:pu240-n-gamma-months}
+    \end{figure}
+
+    The error timeseries of \ce{Pu^{241}} is reproduced in daughter nuclides
+    that are related to the amount of \ce{Pu^{241}}, such as Cm and Am. We
+    observe a general trend for the actinides that the less important or
+    abundant a actinides have higher concentration error relative to
+    transport-coupled depletion. The less abundant actinides have increased
+    sensitivity to over or underestimations of production.  The more important
+    nuclides (\ce{U}, \ce{Np^{239}}, \ce{Pu^{239}}, \ce{Pu^{240}}) tend to have
+    low concentration errors, (5\% or less), whereas the less important
+    actinides (Am, Cm, \ce{Pu^{241}}, \ce{Pu^{242}}) tend to have very high
+    (more than 10\%) depending on the nuclide of interest.
 
     \begin{figure}[htpb]
         \centering
         \includegraphics[width=\linewidth]{figs/actinides_updating_xs_predictor_fission_q_days.pdf}
-        \caption[]{Actinide error in the fuel using updating cross sections}
-        \label{fig:actinides-error-updating-xs}
+        \caption{Relative error of predicted actinide error using
+        updating cross sections and 3-day time steps}
+        \label{fig:actinides-error-updating-xs-days}
     \end{figure}
-    
-    We suspect that the errors for isotopes of \ce{Am} and \ce{Cm} are so high
-    are due to their extremely low composition in the fuel.
-    %expand on this?
 
-
-    % fission products error
-
-    \begin{figure}[h!tpb]
+    \begin{figure}[htpb]
         \centering
-        \includegraphics[width=\linewidth]{figs/fission_products_constant_xs_predictor_fission_q_days.pdf}
-        \caption{Fission product error using constant cross sections}
-        \label{fig:fp-error-constant-xs}
+        \includegraphics[width=\linewidth]{figs/actinides_updating_xs_predictor_fission_q_months.pdf}
+        \caption{Relative error of predicted actinide error using
+        updating cross sections and 30-day time steps}
+        \label{fig:actinides-error-updating-xs-months}
     \end{figure}
 
-    Figures \ref{fig:fp-error-constant-xs} and \ref{fig:fp-error-updating-xs}
+
+
+        
+    Figures \ref{fig:fp-error-constant-xs-days} and
+    \ref{fig:fp-error-updating-xs-days}
     show the relative error for fission products using constant cross sections
     and updating cross sections, respectively.
-
     Similar to the actinides, updating the cross sections at each depletion step
     results in errors in the nuclide compositions  that are fractions of
     percents. However, unlike the actinides, the errors when using constant
     cross sections are all relavtively low, with the largest error being under
     3\%. A majority of our fissile material is uranium, specifically
     \ce{^{235}U}, and the error for that nuclide is so low that it doesn't even
-    show on Figure \ref{fig:actinides-error-constant-xs}. It follows that the
+    show on Figure \ref{fig:actinides-error-constant-xs-days}. It follows that the
     majority of our fission products come from \ce{^{235}U} in a composition
     that is equally low in error. The other actinides are present in amounts
     with higher error, but in very low quantities, so their effect on the error
-    of the fission product compoistions is proportionaly small.
-    
+    of the fission product compositions is proportionaly small.
+
+% fission products error
+    \begin{figure}[h!tpb]
+        \centering
+        \includegraphics[width=\linewidth]{figs/fission_products_constant_xs_predictor_fission_q_days.pdf}
+        \caption{Relative error of predicted fission product concentrations
+        using constant cross sections and 3-day time steps}
+        \label{fig:fp-error-constant-xs-days}
+    \end{figure}
+
     \begin{figure}[htpb]
         \centering
         \includegraphics[width=\linewidth]{figs/fission_products_updating_xs_predictor_fission_q_days.pdf}
-        \caption{Fission product error using  updating cross sections}
-        \label{fig:fp-error-updating-xs}
+        \caption{Relative error of predicted fission product error using
+        updating cross sections and 3-day timesteps}
+        \label{fig:fp-error-updating-xs-days}
+    \end{figure}
+ 
+    \begin{figure}[htpb]
+        \centering
+        \includegraphics[width=\linewidth]{figs/fission_products_constant_xs_predictor_fission_q_months.pdf}
+        \caption{Relative error of predicted fission product error using
+        constant cross sections and 30-day time steps}
+        \label{fig:fp-error-constant-xs-months}
     \end{figure}
 
     \begin{figure}[htpb]
         \centering
-        \includegraphics[width=\linewidth]{figs/actinides_constant_xs_cecm_fission_q_days.pdf}
-        \caption{Actinide error using the CECM integrator}
-        \label{fig:actinides-error-cecm}
+        \includegraphics[width=\linewidth]{figs/fission_products_updating_xs_predictor_fission_q_months.pdf}
+        \caption{Relative error of predicted fission product error using
+        updating cross sections and 30-day time steps}
+        \label{fig:fp-error-updating-xs-months}
     \end{figure}
 
 
-    % actinides predictor vs cecm
-    Figure \ref{fig:actinides-error-cecm} shows the error for actinides using the
-    \verb.CECM. integrator. Comparing these results with those of Figure
-    \ref{fig:actinides-error-constant-xs} we do not see a significant difference
-    in the error. For certain nuclides, the \verb.CECM. integrator appears to
-    perform worse. We see a similar pattern for the fission products.
+    Repeating this analysis for both the CASMO-8 and CASMO-40 multi-group
+    strucutres did not yield significant decreases in error for
+    transport-independent depletion over the one-group case.
 
-    \begin{figure}[htpb]
-        \centering
-        \includegraphics[width=\linewidth]{figs/actinides_constant_xs_predictor_source_rate_days.pdf}
-        \caption{Actinide error using explicit value for the flux}
-        \label{fig:actinides-error-source}
-    \end{figure}
+    It is possible in
+    more complication models, like full reactor depletion, that the multi-group
+    strucutre will become more important..
 
-    Figure \ref{fig:actinides-error-source} shows the error for actinides using
-    the flux we calculated from the initial material composition. These results
-    do not differ significantly from the results in Figure
-    \ref{fig:actinides-error-constant-xs}. The same is true for the fission
-    products.
-
-    Finally, a word on runtime; unfortunately, a bug present in the code during
-    our study prevented collection of exact runtimes that would normally be
-    stored in the statepoint files. Based on our time developing and testing
-    this code, as well as running the simulations, the time savings when using
-    \verb.IndependentOperator. are immense. Whereas the transport-coupled
-    simulations each took several hours to complete, the transport-independent
-    simulations took seconds to minutes to complete!
+    The time savings when using \verb.IndependentOperator. are immense. Whereas
+    the transport-coupled simulations each took several hours to complete, the
+    transport-independent simulations took seconds to minutes to complete!
 
 
