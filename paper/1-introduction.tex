@@ -10,15 +10,6 @@
     \Gls{doene} and the \Gls{nrc} have specifically identified depletion to be a
     key modeling feature for advanced nuclear reactors.
 
-    Modeling depletion in nuclear reactors is inherently linked with modeling
-    neutron transport. In order to obtain the transmutation reaction rates
-    needed for a depletion calculation, one needs to calculate the neutron flux
-    by solving the neutron transport equation. Conversely, after every depletion
-    calculation, the transport solution will need to be run again due to the
-    change in material composition. This process can be very expensive if
-    looking at lifetime behavior of reactor designs, as many transport
-    simulations are needed and they must be done sequentially.
-
     Recent projects seek to use state-of-the-art software tools in Monte Carlo
     transport and computational fluid dynamics coupled with heat transfer for
     simulating advanced reactors along with exascale computing hardware to
@@ -47,22 +38,25 @@
     concerned with the overall change in material composition. Fuel cycle
     simulations typically model many different reactors simultaneously over
     long time periods. Performing transport-coupled depletions for each reactor
-    at each timestep would be much more expensive than using transport-coupled
-    depletion. However, for other applications, the coupling between neutron transport and
-    depletion is effectively one-way. This is often the case for experimental
-    facilities with a neutron source where the source rate is high enough to
-    cause activation of materials but not high enough to produce significant
-    burnup of materials. Many fusion energy facilities fall into this category.
-    For such applications, there is no need to run a fully coupled simulation
-    between neutron transport and depletion; instead, a neutron transport
-    simulation corresponding to the beginning of irradiation can be carried out
-    to determine reaction rates relative to the neutron source rate, and then
-    the depletion calculation can be performed using the reaction rates scaled
-    by any changes in the neutron source rate over time. For fusion systems,
-    these calculations are often carried out with
-    FISPACT-II~\citep{sublet2017nds}; see \citet{eade2020nf} for a recent
-    example. The capabilities described in this paper have also been utilized
-    for a recent study of shutdown dose rate in fusion
+    at each timestep would be much more expensive than using
+    transport-independent depletion. The capabilites described in this paper
+    have been utilized in Cyclus \cite{huff_fundamental_2016}, an open source
+    fuel cycle simulator, for coupling depletion to the fuel cycle
+    simulaton \cite{bachmann_os_2024}. However, for other applications, the
+    coupling between neutron transport and depletion is effectively one-way.
+    This is often the case for experimental facilities with a neutron source
+    where the source rate is high enough to cause activation of materials but
+    not high enough to produce significant burnup of materials. Many fusion
+    energy facilities fall into this category.  For such applications, there is
+    no need to run a fully coupled simulation between neutron transport and
+    depletion; instead, a neutron transport simulation corresponding to the
+    beginning of irradiation can be carried out to determine reaction rates
+    relative to the neutron source rate, and then the depletion calculation can
+    be performed using the reaction rates scaled by any changes in the neutron
+    source rate over time. For fusion systems, these calculations are often
+    carried out with FISPACT-II~\citep{sublet2017nds}; see \citet{eade2020nf}
+    for a recent example. The capabilities described in this paper have also
+    been utilized for a recent study of shutdown dose rate in fusion
     systems~\citep{peterson2024nf}.
 
     The paper is organized as follows. In Section \ref{sec:methods}, we describe
