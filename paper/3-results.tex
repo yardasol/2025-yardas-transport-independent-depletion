@@ -98,13 +98,18 @@
         \end{tabular*}
     \end{table}
     We used the \verb.PredictorIntegrator. time stepper, which is analagous to
-    the Euler method. Predictor-corrector methods are not useful as neither the
-    flux nor the cross sections are changing, only the timestep size.
-    Preliminary testing with predictor-corrector methods showed that they
-    actually {\it increased} the composition error magnitude compared to
-    predictor corrector methods. We used \verb.fission-q. normalization for all
-    cases with a linear power density of 174 W/cm.  For each parameter
-    combination, we ran with three cases:
+    the Euler method. Predictor-corrector methods are not useful for transport
+    independent depetion. The correction step will utilize the same reaction
+    rates as the initial prediction due to the static fluxes and cross sections.
+    This means any predictor-corrector method will produce the same numerical
+    results as a predictor method but with higher floating-point errors due to
+    the increased number of operations \footnote{Preliminary testing with
+    predictor-corrector methods confirmed the highter floating point errors,
+    however they are marginal in magnitude}.
+
+    We used \verb.fission-q. normalization for all cases with a linear power
+    density of 174 W/cm.  For each parameter combination, we ran with three
+    cases:
     \begin{enumerate}
         \item Transport-coupled depletion
         \item Transport-independent depletion
