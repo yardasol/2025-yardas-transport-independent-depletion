@@ -5,6 +5,7 @@
     example, in a full-core model, depletion regions may correspond to
     individual pincells, or even smaller sub-pin regions of radial rings and
     azimuthal segments. The general form of the equation governing depletion is
+    %% The notation here matches what is in the OpenMC depletion paper from 2021
     \begin{equation}
       \label{eq:depletion}
       \begin{split}
@@ -41,12 +42,10 @@
     matrix containing the decay and transmutation coefficients. The coefficients
     of $\vect{A}$ change with time and depend themselves on the nuclide
     composition vector $\vect{n}$, making this a nonlinear system of equations.
-    Solving this system is non-trivial, but it is outside the scope of this paper.
-    Note that the burnup matrix depends on $\vect{n}$ because the solution to
-    the transport equation depends on the nuclide densities, thereby making
-    Equation \ref{eq:depletion-matrix-t} nonlinear. A full breakdown of the
-    solution method as well as the existing depletion capabilities in OpenMC may
-    be found in \cite{romano_depletion_2021}.  We had two design goals for
+    OpenMC utilized the \Gls{CRAM} method to solve this system of equations
+    \cite{romano_depletion_2021}. 
+    
+    We had two design goals for
     transport-independent depletion functionality:
     \begin{itemize}
         \item Enable use of OpenMC depletion capabilities using only the Python API.
@@ -63,16 +62,17 @@
         export \verb.MicroXS. objects from \verb,.csv, files. In principle, a
         user could create multi-group microscopic cross sections with a
         transport solver code, and then use the \verb.MicroXS.  class to read in
-        the cross section data for use in depletion. However, this is unnecessary
-        as the \verb.get_microxs_and_flux(). function enables easy creation of
-        multiple \verb.MicroXS. objects and multi-group flux profiles for the
-        user-specified domains.
+        the cross section data for use in depletion. However, this is
+        unnecessary as the \verb.get_microxs_and_flux(). function runs an OpenMC
+        $k$-eigenvalue calculation to create a \verb.MicroXS. object and
+        multi-group flux profile for each user-specified domain.
 
         In the initial release of this feature in OpenMC v0.13.1, \verb.MicroXS.
         subclassed the Pandas \verb.DataFrame. class to store data and assumed a
         one-group structure. The v0.14.0 release removed the Pandas dependency
         and refactored \verb.MicroXS. class to store multi-group cross section
         data.
+
     \subsection{IndependentOperator}
         The \verb.Operator. class was refactored into a \verb.CoupledOperator.
         class maintaining the existing depletion cabability, and the
@@ -85,10 +85,10 @@
         Calculating reactions rates using multi-group cross sections is
         mathematically equivalent to tallying the reaction rates directly. In
         transport-coupled depletion calculation, the transmutation reaction
-        rates are tallied directly as:
+        rates $r_{ij}(t)$ are tallied directly as:
         \begin{equation}
             \label{eq:cont-rxn-rate}
-            r_{i}(t) = \left[\int_0^\infty \sigma_i(E,t) \phi(E,t) dE \; \right]
+            r_{ij}(t) = \left[\int_0^\infty \sigma_{ij}(E,t) \phi(E,t) dE \; \right]
             N_{i}(t)
         \end{equation}
         where $i$ and $j$ indicate the nuclide and reaction, respectively.
@@ -97,10 +97,10 @@
         reaction rate:
         \begin{equation}
             \label{eq:mg-rxn-rate}
-            r_{i}(t) = \left[\sum_{g} \sigma_{i,g}(t) \phi_{g}(t) \right]
+            r_{ij}(t) = \left[\sum_{g} \sigma_{ij,g}(t) \phi_{g}(t) \right]
             N_{i}(t) 
         \end{equation}
-        calculation. In the limit of infinitely small energy groups, Equation
+        In the limit of infinitely small energy groups, Equation
         \ref{eq:mg-rxn-rate} is equivalent to \ref{eq:cont-rxn-rate}. In
         practice, to get a time-dependent microscopic cross section or flux, we
         must perform transport calculations (and in the case of time-varying
@@ -114,7 +114,7 @@
         $f$ in $\frac{\text{src}}{\text{s}}$ is applied to obtain the more
         conventional unit of $\frac{\text{reactions}}{\text{s}}$:
         \begin{equation}
-            R_i = r_i * f
+            R_{ij} = r_{ij} f
         \end{equation}
         This normalization factor is typcially related to the power of the
         reactor and energy released from fission (\verb.fission-q.
