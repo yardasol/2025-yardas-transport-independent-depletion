@@ -15,9 +15,9 @@
             \toprule
              Item & Fuel & Cladding & Water \\ % Table header row
             \midrule
-             Density [g/cc] & 10.4 & 6 & 1.0\\
-             Volume [cc] & 0.1764$\pi$ & & \\
-             S($\alpha$,$\beta$) &  & & \verb.c_H_in_H2O.\\
+             Density [g cm$^{-3}$] & 10.4 & 6 & 1.0\\
+             Volume [cm$^{3}$] & 0.1764$\pi$ & -- & -- \\
+             S($\alpha$,$\beta$) & --  & -- & \verb.c_H_in_H2O.\\
             \bottomrule
         \end{tabular*}
     \end{table}
@@ -27,7 +27,7 @@
         \label{tab:fuel-comp}
         \begin{tabular*}{\tblwidth}{@{}LL@{}}
             \toprule
-            Nuclide & Composition [at-\%] \\ % Table header row
+            Nuclide & Composition [atom \%] \\ % Table header row
             \midrule
              $^{15}$O & 0.000758 \\
              $^{16}$O & 1.999242 \\
@@ -44,7 +44,7 @@
         \label{tab:clad-comp}
         \begin{tabular*}{\tblwidth}{@{}LL@{}}
             \toprule
-            Nuclide & Composition [at-\%] \\ % Table header row
+            Nuclide & Composition [atom \%] \\ % Table header row
             \midrule
              $^{90}$Zr & 0.5145 \\
              $^{91}$Zr & 0.1122 \\
@@ -60,7 +60,7 @@
         \label{tab:water-comp}
         \begin{tabular*}{\tblwidth}{@{}LL@{}}
             \toprule
-            Nuclide & Composition [at-\%] \\ % Table header row
+            Nuclide & Composition [atom \%] \\ % Table header row
             \midrule
              $^{1}$H & 1.999689\\
              $^{2}$H & 0.000311 \\
@@ -74,13 +74,14 @@
         \caption{Geometric Parameters}\label{tab:geo-params}
         \begin{tabular*}{\tblwidth}{@{}LLLL@{}}
             \toprule
-            Fuel Radius & Clad Radius & Water Bounding Box dimensions\\
+            Fuel Radius [cm] & Clad Radius [cm] & Water Bounding Box dimensions
+            [cm  $\times$ cm]\\
             \midrule
             0.42 & 0.45 &  1.24 $\times$ 1.24\\
             \bottomrule
         \end{tabular*}
     \end{table}
-    We used time step size and depletion timestepper as our parameters to vary.
+    We used time step size as our parameter to vary.
     Table \ref{tab:timestep-shorthands} shows the different time step sizes we
     used and their shorthand terminology. All simulations ran for 10 depletion
     steps.
@@ -107,9 +108,10 @@
     predictor-corrector methods confirmed the highter floating point errors,
     however they are marginal in magnitude}.
 
-    We used \verb.fission-q. normalization for all cases with a linear power
-    density of 174 W/cm.  For each parameter combination, we ran with three
-    cases:
+    We used constant reacton rate Q values multiplied by the reaction rates to
+    obtain the normalization factor $f$ (\verb.fission-q. normalization) for all
+    cases with a linear power density of 174 W/cm. For each timestep size.
+    we ran with three cases:
     \begin{enumerate}
         \item Transport-coupled depletion
         \item Transport-independent depletion
