@@ -1,15 +1,16 @@
 \section{Conclusions}\label{sec:conclusion}
-    In this paper, we introduced a new method for running depletion simulations
-    in OpenMC. This method relies on pre-calclated multi-group cross sections
-    and fluxes stored in a \verb,.csv, file. The new method is siginifcantly
-    faster than running a transport-coupled depletion simulation, albiet with a
-    penalty to accuracy. Better accuracy will be obtained in simulations where
-    the neutron flux spectrum will be constant, i.e. in fusion simulations.
+    In this paper, we introduced transport-independent depletion in OpenMC. This
+    method utilized pre-computed multi-group cross sections and fluxes to
+    calculate reaction rates for a depletion calculation. The new method is
+    siginifcantly faster than running a transport-coupled depletion simulation,
+    albiet with a penalty to accuracy. Better accuracy will be obtained for
+    models where the neutron flux spectrum will be constant, i.e. in
+    fusion systems, low power fission reactors, and .
          
     This study focused exclusively on nuclide compositions. No capability exists
-    in \verb.IndependentOperator. to calculate $k_\text{eff}$ using. A good
-    starting point may be in implementing a method similar to the method to estimate
-    $k_{\infty}$ used in \cite{LOVECKY2014333}, wherein
+    in \verb.IndependentOperator. to monitor criticality as the fuel depletes. A
+    good starting point may be in implementing a method similar to the method to
+    estimate $k_{\infty}$ used in \cite{LOVECKY2014333}, wherein
     \begin{equation}
         k_{\infty} = \frac{\sum_{i} \sum_{j} N_{i} \nu_{j}
         \sigma_{i}^{j}}{\sum_{i}\sum_{j} N_{i} \sigma_{i}^{j}}  
