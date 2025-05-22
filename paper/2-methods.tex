@@ -27,7 +27,7 @@
       \end{split}
     \end{equation*}
     The summations in Equation \ref{eq:depletion} are effectively over all
-    nuclides excecpt $i$, as $f_{i \rightarrow i}(E)$ and $\lambda_{i \rightarrow i}$ must
+    nuclides except $i$, as $f_{i \rightarrow i}(E)$ and $\lambda_{i \rightarrow i}$ must
     be zero by definition. Equation \ref{eq:depletion} can be condensed into a
     matrix-vector equation:
     \begin{equation}
@@ -40,7 +40,7 @@
     \end{equation}
     and $\vect{A}(\vect{n},t) \in \mathbb{R}^{n\times n}$ is the depletion
     matrix containing the decay and transmutation coefficients. The coefficients
-    of $\vect{A}$ change with time and depend themselves on the nuclide
+    of $\vect{A}$ change with time and depend on the nuclide
     composition vector $\vect{n}$, making this a nonlinear system of equations.
     OpenMC utilized the \Gls{cram} method to solve this system of equations
     \citep{romano_depletion_2021}. 
@@ -48,16 +48,16 @@
     We had two design goals for
     transport-independent depletion functionality:
     \begin{itemize}
-        \item Enable use of OpenMC depletion capabilities using only the Python API.
-        \item Enable depletion of materials directly given a multi-group flux
-            for each material 
+        \item enable use of OpenMC depletion capabilities using only the Python API
+        \item enable depletion of materials directly given a multi-group flux
+            for each material.
     \end{itemize}
     
     We created the \verb.IndependentOperator. and \verb.MicroXS. classes to
     achieve these design goals.    
     \subsection{MicroXS}
         \label{sub:microxs}
-        The \verb.MicroXS. class contains cross-section data indexed by nuclide,
+        The \verb.MicroXS. class contains cross section data indexed by nuclide,
         reaction name, and energy group. It also contains methods to import and
         export \verb.MicroXS. objects from \verb,.csv, files. In principle, a
         user could create multi-group microscopic cross sections with a
@@ -74,8 +74,12 @@
         data.
 
     \subsection{IndependentOperator}
-        The \verb.Operator. class was refactored into a \verb.CoupledOperator.
-        class maintaining the existing depletion cabability, and the
+        The \verb.Operator. class contains data and methods for running
+        transport-coupled depletion calculations and runtime
+        processing of OpenMC statepoint files to extract the data needed to
+        solve Equation \ref{eq:depletion-matrix-t}. In this work, the
+        \verb.Operator. class was refactored into a \verb.CoupledOperator.
+        class maintaining the existing depletion capability, and the
         transport-independent depletion machinery was implemented into a new
         class, \verb.IndependentOperator. which uses an instance of the
         \verb.MicroXS. class and corresponding fluxes for each depletion domain
@@ -110,9 +114,9 @@
 
         %% THIS DOESN'T MATCH WITH OPENMCs COMMENTS
         Both the tallied and multi-group-calculated reaction rates have units of
-        $\frac{\text{reactions}}{\text{src particle}}$. A normalization factor
-        $f$ in $\frac{\text{src}}{\text{s}}$ is applied to obtain the more
-        conventional unit of $\frac{\text{reactions}}{\text{s}}$:
+        $\text{reactions}/\text{src particle}$. A normalization factor
+        $f$ in $\text{src}/\text{s}$ is applied to obtain the more
+        conventional unit of $\text{reactions}/\text{s}$:
         \begin{equation}
             R_{ij} = r_{ij} f
         \end{equation}
@@ -120,8 +124,7 @@
         reactor and energy released from fission (\verb.fission-q.
         normalization), or the external source strength (\verb.source-rate.
         normalization). \verb.IndependentOperator. may use either of these methods to normalize
-        the reaction rates. normalizing the tally results, and computing
-        reaction rates. While \verb.CoupledOperator. may use several methods to
+        the reaction rates. While \verb.CoupledOperator. may use several methods to
         calculate fission yields, including using the Monte Carlo simulation to
         directly tally fission yields, \verb.IndependentOperator. relies on
         constant yield data included in the depletion chain file.

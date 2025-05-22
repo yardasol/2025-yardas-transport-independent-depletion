@@ -8,14 +8,13 @@
     %identified depletion to be a key modeling feature for advanced nuclear
     %reactors.
 
-    Recent projects seek to use state-of-the-art software tools in Monte Carlo
-    transport and computational fluid dynamics coupled with heat transfer for
-    simulating advanced reactors on exascale computing hardware to overcome the
-    computational challenge of this task ~\citep{romano2021nse,merzari2023sc}.
-    These methods are very computationally expensive, but deliver high
-    confidence in their results. If any component in this tool chain could be
-    simplified or sped up, it would greatly reduce the computational cost on and
-    economic cost from these exascale machines.
+    Accurate simulations of advanced reactors on exascale computing hardware
+    requires state-of-the-art software tools in Monte Carlo transport and
+    heat-coupled computational fluid dynamics
+    ~\citep{romano2021nse,merzari2023sc}.  These methods are computationally
+    expensive, but deliver high confidence in their results. If any component in
+    this tool chain could be simplified or sped up, it would reduce the
+    computational cost on and economic cost from these exascale machines.
 
     {\it Depletion} is the process by which the nuclide composition changes due
     to nuclear transmutation and decay reactions occurring in a material subject
@@ -30,8 +29,8 @@
 
     In the present work, we describe a new method for running depletion
     calculations without the need to iteratively run transport calculations by
-    using precalculated microscopic cross sections and fluxes for each depletion
-    step.  At most, only one transport calculation needs to be run to generate
+    using pre-calculated microscopic cross sections and fluxes for each depletion
+    step. At most, only one transport calculation needs to be run to generate
     these cross sections and fluxes. If few materials are used, this effectively
     removes spatial effects of the changing material composition due to the
     static fluxes and cross sections. It is possible that spatial effects could
@@ -43,9 +42,7 @@
     such application is in global fuel-cycle analysis where we are more
     concerned with the overall change in material composition. Fuel cycle
     simulations typically model many different reactors simultaneously over
-    long time periods. Performing transport-coupled depletions for each reactor
-    at each timestep would be much more expensive than using
-    transport-independent depletion. The capabilites described in this paper
+    long time periods. The capabilities described in this paper
     have been utilized in Cyclus \citep{huff_fundamental_2016} -- an open source
     fuel cycle simulator -- for coupling depletion to the fuel cycle
     simulaton \citep{bachmann_os_2024}. However, for other applications, the
@@ -56,19 +53,19 @@
     energy facilities would fall into this category.  For such applications, there is
     no need to run a fully coupled simulation between neutron transport and
     depletion; instead, a neutron transport simulation corresponding to the
-    beginning of irradiation can be carried out to determine reaction rates
-    relative to the neutron source rate, and then the depletion calculation can
-    be performed using the reaction rates scaled by any changes in the neutron
-    source rate over time. For fusion systems, these calculations are often
-    carried out with FISPACT-II~\citep{sublet2017nds}; See \citet{eade2020nf}
-    for a recent example. The capabilities described in this paper have also
-    been utilized for a recent study of shutdown dose rate in fusion
+    beginning of irradiation can determine reaction rates relative to the
+    neutron source rate, and then the depletion calculation can be performed
+    using the reaction rates scaled by any changes in the neutron source rate
+    over time. For fusion systems, these calculations are often carried out with
+    FISPACT-II~\citep{sublet2017nds}; See \citet{eade2020nf} for a recent
+    example. The capabilities described in this paper have also been utilized
+    for a recent study of shutdown dose rate in fusion
     systems~\citep{peterson2024nf}.
 
     This paper is organized as follows. In Section \ref{sec:methods}, we describe
     the methods and algorithms used to calculate reaction rates using the new
     depletion capabilities. In Section \ref{sec:results}, we describe our
-    simulation and analyse the results. In Section \ref{sec:conclusion}, we
+    simulation and analyze the results. In Section \ref{sec:conclusion}, we
     summarize our results, and discuss some gaps in the current implementation
     of the new feature.
 

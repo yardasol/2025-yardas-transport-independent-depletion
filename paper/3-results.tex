@@ -81,27 +81,27 @@
             \bottomrule
         \end{tabular*}
     \end{table}
-    We used four differnt time step sizes: 360 seconds, 4 hours, 3 days, and 30
+    We used four different time step sizes: 360 seconds, 4 hours, 3 days, and 30
     days. All simulations ran for 10 depletion
     steps.
 
-    We used the \verb.PredictorIntegrator. time stepper, which is analagous to
+    We used the \verb.PredictorIntegrator. time stepper, which is analogous to
     the Euler method. Predictor-corrector methods are not useful for transport
-    independent depetion. The correction step will utilize the same reaction
+    independent depletion. The correction step will utilize the same reaction
     rates as the initial prediction due to the static fluxes and cross sections.
     This means any predictor-corrector method will produce the same numerical
     results as a predictor method but with higher floating-point errors due to
     the increased number of operations \footnote{Preliminary testing with
-    predictor-corrector methods confirmed the highter floating point errors,
+    predictor-corrector methods confirmed the higher floating point errors,
     however they are marginal in magnitude}.
 
-    We used constant reacton rate Q values multiplied by the reaction rates to
+    We used constant reaction rate Q values multiplied by the reaction rates to
     obtain the normalization factor $f$ (\verb.fission-q. normalization) for all
-    cases with a linear power density of 174 W/cm. For each timestep size.
+    cases with a linear power density of 174 W/cm. For each time step size.
     we ran with three cases:
     \begin{enumerate}
-        \item Transport-coupled depletion
-        \item Transport-independent depletion
+        \item Transport-coupled depletion,
+        \item Transport-independent depletion,
         \item Transport-independent depletion with microscopic cross sections
             updated after each depletion step (one-group only).
     \end{enumerate}
@@ -112,18 +112,18 @@
     depletion, we used three different group structures to test the effect on
     solution accuracy: one group, CASMO-8, and CASMO-40.
 
-    Note that the third case is significantly slower than transport-coupled
-    depletion as the cross sections need to be reloaded after each depletion
-    step. Due to the cross section discretization that occurs before peforming
-    depletion, we do not expect the third case results to converge to the first
-    case results in limit of infinite particles, but we would expect it to
-    converge in the limit of infinite particles {\it and} energy groups. The
-    third case was only run for one-group transport-independent depletion.
-    Unless otherwise specified, all results are using 3-day time steps and
-    \verb,PredictorIntegrator,. The general trend is that concentration errors
-    are smaller for shorter depletion time steps, and larger for longer
-    depletion time steps, however there are more complicated dynamics for this
-    to be a reliable prediction for each nuclide concentration.
+    The third case is much slower than transport-coupled depletion as the cross
+    sections need to be reloaded after each depletion step. Due to the cross
+    section discretization that occurs before peforming depletion, we do not
+    expect the third case results to converge to the first case results in limit
+    of infinite particles, but we would expect it to converge in the limit of
+    infinite particles {\it and} energy groups. The third case was only run for
+    one-group transport-independent depletion.  Unless otherwise specified, all
+    results are using 3-day time steps and \verb,PredictorIntegrator,. The
+    general trend is that concentration errors are smaller for shorter depletion
+    time steps, and larger for longer depletion time steps; however there are
+    more complicated dynamics for this to be a reliable prediction for each
+    nuclide concentration.
 
     % actinides error 
     \begin{figure}[h!tpb]
@@ -155,10 +155,9 @@
     constant cross sections depends both on the cross section and time step
     size. For example, constant cross sections using a 3-day time step
     underpredicts the \ce{^{241}Pu} concentration, but at longer time steps
-    overpredicts the concentration. The overprediction is due due to
-    overcalculating the rate of ($n,\gamma$) reactions that occur on
-    \ce{^{240}Pu}. Figure \ref{fig:pu240-n-gamma-months} shows this.
-
+    overpredicts the concentration. Figure \ref{fig:pu240-n-gamma-months} shows
+    the overprediction due to overcalculating the rate of ($n,\gamma$) reactions
+    that occur on \ce{^{240}Pu}. 
     \begin{figure}[htpb]
         \centering
         \includegraphics[width=\linewidth]{figs/pu240-n-gamma-months.pdf}
@@ -205,14 +204,14 @@
     \ref{fig:fp-error-updating-xs-months} show the same respective quantities
     for 30-day time steps. Similar to the actinides, updating the cross sections
     at each time step results in very low predicted nuclide concentration
-    errors.  There is a notably lower concentration error across the board for
-    many of these fission products compared to the actinides. This is due to th
-    low concentration error of error of \ce{^{235}U}, which propogates to the
+    errors.  There is a lower concentration error across the board for
+    many of these fission products compared to the actinides. This is due to the
+    low concentration error of error of \ce{^{235}U}, which propagates to the
     fission products. Other actinides with higher concentration errors are
     orders of magnitude less abundant in the fuel than \ce{^{235}U}, so their
-    effect on fission product concentration error is proportionaly small.
+    effect on fission product concentration error is proportionally small.
 
-    Concentration errors for low-abundance nuclides using 30-day timesteps follow
+    Concentration errors for low-abundance nuclides using 30-day time steps follow
     an interesting trend where there is an initial large negative error
     concentration error that becomes more positive over time. This behavior is due
     to overestimation of nuclide production due to static cross sections and
@@ -255,7 +254,7 @@
     \end{figure}
 
     Repeating this analysis for both the CASMO-8 and CASMO-40 multi-group
-    strucutres did not yield significant decreases in nuclide concentration
+    structures did not yield noticeable decreases in nuclide concentration
     errors for transport-independent depletion over the one-group case.  Figures
     \ref{fig:actinides-error-casmo8-xs-days} and
     \ref{fig:actinides-error-casmo40-xs-days} show the relative error in
@@ -304,6 +303,6 @@
     \end{figure}
 
 
-    The time savings when using \verb.IndependentOperator. are immense. Whereas
-    the transport-coupled simulations each took several hours to complete, the
-    transport-independent simulations took seconds to minutes to complete!
+    The transport-coupled simulations each took several hours to complete,
+    whereas the transport-independent simulations using
+    \verb.IndependentOperator. took seconds to minutes to complete.

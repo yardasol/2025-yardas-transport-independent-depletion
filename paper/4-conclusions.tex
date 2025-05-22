@@ -1,11 +1,11 @@
 \section{Conclusions}\label{sec:conclusion}
     In this paper, we introduced transport-independent depletion in OpenMC. This
     method utilized pre-computed multi-group cross sections and fluxes to
-    calculate reaction rates for a depletion calculation. The new method is
-    siginifcantly faster than running a transport-coupled depletion simulation,
-    albiet with a penalty to accuracy. Better accuracy will be obtained for
-    models where the neutron flux spectrum will be constant, i.e. in
-    fusion systems, low power fission reactors, and .
+    calculate reaction rates for a depletion calculation. The new method is much
+    faster than running a transport-coupled depletion simulation, albeit with a
+    penalty to accuracy. Better accuracy will be obtained for models where the
+    neutron flux spectrum will be constant, i.e. in fusion systems and low power
+    fission reactors.
          
     This study focused exclusively on nuclide compositions. No capability exists
     in \verb.IndependentOperator. to monitor criticality as the fuel depletes. A
@@ -16,7 +16,7 @@
         \sigma_{i}^{j}}{\sum_{i}\sum_{j} N_{i} \sigma_{i}^{j}}  
     \end{equation}
     where $j$ indicates the type of reaction, and $\nu_{j}$ is the neutron
-    multipliation of reaction $j$, defined as
+    multiplication of reaction $j$, defined as
     \begin{equation}
         \nu_j = \begin{cases}
             0 & j=\text{ absorption reaction}\\
@@ -26,11 +26,11 @@
     \end{equation}
     In OpenMC, $(n,xn)$ reactions are not used to calculate $k_\text{eff}$ (and
     by extension $k_{\infty}$). In this case, $\nu_{x} = 0$ in the numerator for
-    all $x$, and we would use an `effective' aborption cross section
+    all $x$, and we would use an `effective' absorption cross section
     $\overline{\sigma}_{a} = \sigma_{a} - \sigma_{(n,2n)} - 2\sigma_{(n,3n)} -
     3\sigma_{(n,4n)}$. 
 
     The geometry used in this study was a simple PWR pincell. We did not find
-    significant difference in error between one-group, 8-group, and 40-group
+    a difference in error between one-group, 8-group, and 40-group
     transport-independent depletion. It is possible that this distinction
     becomes more important for complex geometries with distinct depletion zones.
