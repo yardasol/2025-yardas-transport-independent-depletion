@@ -2,8 +2,8 @@
     \label{sec:methods}
     Depletion is typically done in subregions that are small enough to have
     little spatial variation in the flux (and hence in the reaction rates). For
-    example, in a full-core model, depletion regions may correspond to
-    individual pincells, or even smaller sub-pin regions of radial rings and
+    example, in a model of a full reactor core, depletion regions may correspond to
+    individual fuel pins, or even smaller sub-pin regions of radial rings and
     azimuthal segments. The general form of the equation governing depletion is
     %% The notation here matches what is in the OpenMC depletion paper from 2021
     \begin{equation}
@@ -52,7 +52,6 @@
         \item enable depletion of materials directly given a multi-group flux
             for each material.
     \end{itemize}
-    
     We created the \verb.IndependentOperator. and \verb.MicroXS. classes to
     achieve these design goals.    
     \subsection{MicroXS}
@@ -75,16 +74,16 @@
 
     \subsection{IndependentOperator}
         The \verb.Operator. class contains data and methods for running
-        transport-coupled depletion calculations and runtime
-        processing of OpenMC statepoint files to extract the data needed to
-        solve Equation \ref{eq:depletion-matrix-t}. In this work, the
-        \verb.Operator. class was refactored into a \verb.CoupledOperator.
-        class maintaining the existing depletion capability, and the
-        transport-independent depletion machinery was implemented into a new
-        class, \verb.IndependentOperator. which uses an instance of the
-        \verb.MicroXS. class and corresponding fluxes for each depletion domain
-        to calculate reaction rates for that domain using multi-group microscopic
-        cross sections.
+        transport-coupled depletion calculations and runtime processing of
+        OpenMC statepoint files to extract the data needed to solve Equation
+        \ref{eq:depletion-matrix-t}. In this work, we refactored the
+        \verb.Operator. class into a \verb.CoupledOperator.  class maintaining
+        the existing depletion capability. We implemented the
+        transport-independent depletion machinery in a new class,
+        \verb.IndependentOperator. which uses an instance of the \verb.MicroXS.
+        class and corresponding fluxes for each depletion domain to calculate
+        reaction rates for that domain using multi-group microscopic cross
+        sections.
 
         Calculating reactions rates using multi-group cross sections is
         mathematically equivalent to tallying the reaction rates directly. In
@@ -104,13 +103,14 @@
             r_{ij}(t) = \left[\sum_{g} \sigma_{ij,g}(t) \phi_{g}(t) \right]
             N_{i}(t) 
         \end{equation}
-        In the limit of infinitely small energy groups, Equation
-        \ref{eq:mg-rxn-rate} is equivalent to \ref{eq:cont-rxn-rate}. In
-        practice, to get a time-dependent microscopic cross section or flux, we
-        must perform transport calculations (and in the case of time-varying
-        microscopic cross sections, incorporate thermal feedbacks). Herein lies
-        the primary assumption of transport-independent depletion: {\it
-        microscopic cross sections and reactor fluxes are static}.
+        In practice, this introduces a discretization error, but in the limit of
+        infinitely small energy groups, Equation \ref{eq:mg-rxn-rate} is
+        equivalent to \ref{eq:cont-rxn-rate}. To get a time-dependent
+        microscopic cross section or flux, we must perform transport
+        calculations (and in the case of time-varying microscopic cross
+        sections, incorporate thermal feedbacks). Herein lies the primary
+        assumption of transport-independent depletion: {\it microscopic cross
+        sections and reactor fluxes are static}.
 
         %% THIS DOESN'T MATCH WITH OPENMCs COMMENTS
         Both the tallied and multi-group-calculated reaction rates have units of
@@ -120,9 +120,9 @@
         \begin{equation}
             R_{ij} = r_{ij} f
         \end{equation}
-        This normalization factor is typcially related to the power of the
+        This normalization factor is typically related to the power of the
         reactor and energy released from fission (\verb.fission-q.
-        normalization), or the external source strength (\verb.source-rate.
+        normalization) or the external source strength (\verb.source-rate.
         normalization). \verb.IndependentOperator. may use either of these methods to normalize
         the reaction rates. While \verb.CoupledOperator. may use several methods to
         calculate fission yields, including using the Monte Carlo simulation to
