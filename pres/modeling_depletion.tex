@@ -1,0 +1,48 @@
+\begin{frame}
+  \frametitle{Modeling Depletion}
+  Governing Equation:
+    \begin{equation}
+      \label{eq:depletion}
+      \begin{split}
+          \frac{dN_i}{dt} = & \sum\limits_{j=1}^n \overbrace{N_j(t)\int_0^\infty
+            f_{j \rightarrow i}(E) \sigma_j (E, t) \phi(E,t) dE}^\text{Production
+            of $i$ from $j$} \;+
+          \sum\limits_{j=1}^n \overbrace{N_j(t) \lambda_{j\rightarrow
+            i}}^\text{Decay of $j$ into $i$}
+          \\ & N_i(t)\underbrace{\int_0^\infty \sigma_i (E,t) \phi(E,t)
+            dE}_\text{Consumption of $i$} \; +
+          \underbrace{N_i(t)\sum\limits_{j=1}^n \lambda_{i\rightarrow
+            j}}_\text{Decay of $i$} ,
+      \end{split}
+    \end{equation}
+    where
+    \begin{equation*}
+      \begin{split}
+        N_i(t) &\equiv \text{density of nuclide $i$ at time $t$} \\
+        \sigma_i(E,t) &\equiv \text{transmutation cross section for nuclide $i$ at energy $E$ and time $t$} \\
+        \phi(E,t) &\equiv \text{neutron flux at energy $E$ and time $t$} \\
+        f_{j \rightarrow i}(E) &\equiv \text{fraction of transmutation reactions in nuclide $j$ that produce nuclide $i$} \\
+        \lambda_{j \rightarrow i} &\equiv \text{decay constant for decay modes in nuclide $j$ that produce nuclide $i$} \\
+        n &\equiv \text{total number of nuclides.}
+      \end{split}
+    \end{equation*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Modeling Depletion (continued)}
+    \begin{block}{What do we need to solve Equation \ref{eq:depletion}?}
+      \begin{itemize}
+          \item $N_{i}(t),\; n\; \rightarrow$ Model system with explicitly defined compositions 
+          \item $\sigma_{i}(E,t),\; f_{j\rightarrow i},\; \lambda_{j \rightarrow
+              i}\; \rightarrow$
+              Nuclear Data Libraries (JEFF, ENDF, etc.)
+          \item $\phi(E,t)\; \rightarrow$ Neutron transport software
+      \end{itemize}  
+    \end{block}
+
+    
+    \begin{block}{Can we make this cheaper?}
+        Assume {\it static} cross sections $\rightarrow$ decouple transport from
+        depletion.
+    \end{block}
+\end{frame}

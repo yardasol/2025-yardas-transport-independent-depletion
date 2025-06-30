@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.10" baseProfile="full" width="100%" height="100%" viewBox="575 275 375 375" stroke-width="2">
+<g font-family="Noto Sans, sans-serif">
+
+<defs>
+</defs>
+
+<!-- Decays legend -->
+<rect x="835" y="285" width="120" height="80" style="fill:lightgray;stroke:dimgray;stroke-width:1;opacity:0.5"/>
+<switch><text x="836" y="300" fill="firebrick" id="trsvg76-ro" systemLanguage="ro"><tspan id="trsvg1-ro">fisil</tspan></text><text x="836" y="300" fill="firebrick" id="trsvg76"><tspan id="trsvg1">fissile</tspan></text></switch><switch><text x="887" y="300" fill="red" id="trsvg77-ro" systemLanguage="ro"><tspan id="trsvg2-ro">fisiune %</tspan></text><text x="887" y="300" fill="red" id="trsvg77"><tspan id="trsvg2">fission%</tspan></text></switch>
+<switch><text x="836" y="320" fill="mediumblue" id="trsvg78-ro" systemLanguage="ro"><tspan id="trsvg3-ro">fertil</tspan></text><text x="836" y="320" fill="mediumblue" id="trsvg78"><tspan id="trsvg3">fertile</tspan></text></switch><switch><text x="887" y="320" fill="blue" id="trsvg79-ro" systemLanguage="ro"><tspan id="trsvg4-ro">captur&#x103; %</tspan></text><text x="887" y="320" fill="blue" id="trsvg79"><tspan id="trsvg4">capture%</tspan></text></switch>
+<switch><text x="837" y="340" fill="dimgray" id="trsvg80-ro" systemLanguage="ro"><tspan id="trsvg5-ro">pu&#x21B;in fertil</tspan></text><text x="837" y="340" fill="dimgray" id="trsvg80"><tspan id="trsvg5">less fertile</tspan></text></switch>
+<switch><text x="837" y="360" fill="silver" id="trsvg81-ro" systemLanguage="ro"><tspan id="trsvg6-ro">via&#x21B;&#x103; scurt&#x103;</tspan></text><text x="837" y="360" fill="silver" id="trsvg81"><tspan id="trsvg6">shortlived</tspan></text></switch><switch><text x="906" y="360" fill="fuchsia" id="trsvg82"><tspan id="trsvg7">&#x3B1;%</tspan></text></switch><switch><text x="930" y="360" fill="green" id="trsvg83"><tspan id="trsvg8">&#x3B2;%</tspan></text></switch>
+
+<!-- Alpha decay -->
+<g stroke="fuchsia" fill="none">
+<path id="Cm-242-Pu-238" d="M 600,585 Q 570,473 600,362 L 590,372 M 600,362 610,372"/>
+<path id="Cm-243-Pu-239" d="M 700,585 Q 650,454 700,322 L 688,330 M 708,334 L 700,322"/>
+<path id="Cm-244-Pu-240" d="M 800,585 Q 750,454 800,322 L 790,332 L 800,322 L 810,332 L 800,322"/>
+</g>
+
+<g fill="fuchsia">
+<switch><text x="596" y="402" id="trsvg84"><tspan id="trsvg9">&#x3B1;</tspan></text></switch><switch><text x="596" y="420" id="trsvg85-ro" systemLanguage="ro"><tspan id="trsvg10-ro">96 %</tspan></text><text x="596" y="420" id="trsvg85"><tspan id="trsvg10">96%</tspan></text></switch>
+<switch><text x="695" y="352" id="trsvg86"><tspan id="trsvg11">&#x3B1;</tspan></text></switch><switch><text x="695" y="370" id="trsvg87-ro" systemLanguage="ro"><tspan id="trsvg12-ro">2 %</tspan></text><text x="695" y="370" id="trsvg87"><tspan id="trsvg12">2%</tspan></text></switch>
+<switch><text x="795" y="352" id="trsvg88"><tspan id="trsvg13">&#x3B1;</tspan></text></switch><switch><text x="795" y="370" id="trsvg89-ro" systemLanguage="ro"><tspan id="trsvg14-ro">15 %</tspan></text><text x="795" y="370" id="trsvg89"><tspan id="trsvg14">15%</tspan></text></switch>
+</g>
+
+<!-- Nuclides -->
+<g fill="mediumblue">
+<switch><text x="590" y="300" id="trsvg90"><tspan id="trsvg15">238</tspan></text></switch><switch><text x="612" y="312" id="trsvg91"><tspan id="trsvg16">U</tspan></text></switch>
+<switch><text x="590" y="350" id="trsvg92"><tspan id="trsvg17">238</tspan></text></switch><switch><text x="612" y="362" id="trsvg93"><tspan id="trsvg18">Pu</tspan></text></switch>
+<switch><text x="790" y="300" id="trsvg94"><tspan id="trsvg19">240</tspan></text></switch><switch><text x="812" y="312" id="trsvg95"><tspan id="trsvg20">Pu</tspan></text></switch>
+<switch><text x="790" y="600" id="trsvg96"><tspan id="trsvg21">244</tspan></text></switch><switch><text x="812" y="612" id="trsvg97"><tspan id="trsvg22">Cm</tspan></text></switch>
+</g>
+
+<g fill="firebrick">
+<switch><text x="690" y="300" id="trsvg98"><tspan id="trsvg23">239</tspan></text></switch><switch><text x="712" y="312" id="trsvg99"><tspan id="trsvg24">Pu</tspan></text></switch>
+<switch><text x="690" y="400" id="trsvg100"><tspan id="trsvg25">241</tspan></text></switch><switch><text x="712" y="412" id="trsvg101"><tspan id="trsvg26">Pu</tspan></text></switch>
+<switch><text x="720" y="550" id="trsvg102"><tspan id="trsvg27">242m</tspan></text></switch><switch><text x="752" y="562" id="trsvg103"><tspan id="trsvg28">Am</tspan></text></switch>
+<switch><text x="690" y="600" id="trsvg104"><tspan id="trsvg29">243</tspan></text></switch><switch><text x="712" y="612" id="trsvg105"><tspan id="trsvg30">Cm</tspan></text></switch>
+<switch><text x="890" y="600" id="trsvg106"><tspan id="trsvg31">245</tspan></text></switch><switch><text x="912" y="612" id="trsvg107"><tspan id="trsvg32">Cm</tspan></text></switch>
+</g>
+
+<g fill="dimgray">
+<switch><text x="790" y="400" id="trsvg108"><tspan id="trsvg33">242</tspan></text></switch><switch><text x="812" y="412" id="trsvg109"><tspan id="trsvg34">Pu</tspan></text></switch>
+<switch><text x="590" y="500" id="trsvg110"><tspan id="trsvg35">241</tspan></text></switch><switch><text x="612" y="512" id="trsvg111"><tspan id="trsvg36">Am</tspan></text></switch>
+<switch><text x="790" y="500" id="trsvg112"><tspan id="trsvg37">243</tspan></text></switch><switch><text x="812" y="512" id="trsvg113"><tspan id="trsvg38">Am</tspan></text></switch>
+</g>
+
+<g fill="silver">
+<switch><text x="890" y="400" id="trsvg114"><tspan id="trsvg39">243</tspan></text></switch><switch><text x="912" y="412" id="trsvg115"><tspan id="trsvg40">Pu</tspan></text></switch>
+<switch><text x="690" y="500" id="trsvg116"><tspan id="trsvg41">242</tspan></text></switch><switch><text x="712" y="512" id="trsvg117"><tspan id="trsvg42">Am</tspan></text></switch>
+<switch><text x="890" y="500" id="trsvg118"><tspan id="trsvg43">244</tspan></text></switch><switch><text x="912" y="512" id="trsvg119"><tspan id="trsvg44">Am</tspan></text></switch>
+<switch><text x="590" y="600" id="trsvg120"><tspan id="trsvg45">242</tspan></text></switch><switch><text x="612" y="612" id="trsvg121"><tspan id="trsvg46">Cm</tspan></text></switch>
+</g>
+
+<!-- Fission percentages -->
+<g fill="red">
+<switch><text x="619" y="377" id="trsvg122-ro" systemLanguage="ro"><tspan id="trsvg47-ro">9 %</tspan></text><text x="619" y="377" id="trsvg122"><tspan id="trsvg47">9%</tspan></text></switch>
+<switch><text x="789" y="615" id="trsvg123-ro" systemLanguage="ro"><tspan id="trsvg48-ro">4 %</tspan></text><text x="789" y="615" id="trsvg123"><tspan id="trsvg48">4%</tspan></text></switch>
+<switch><text x="719" y="325" id="trsvg124-ro" systemLanguage="ro"><tspan id="trsvg49-ro">64 %</tspan></text><text x="719" y="325" id="trsvg124"><tspan id="trsvg49">64%</tspan></text></switch>
+<switch><text x="700" y="425" id="trsvg125-ro" systemLanguage="ro"><tspan id="trsvg50-ro">72 %</tspan></text><text x="700" y="425" id="trsvg125"><tspan id="trsvg50">72%</tspan></text></switch>
+<switch><text x="715" y="565" id="trsvg126-ro" systemLanguage="ro"><tspan id="trsvg51-ro">84 %</tspan></text><text x="715" y="565" id="trsvg126"><tspan id="trsvg51">84%</tspan></text></switch>
+<switch><text x="719" y="595" id="trsvg127-ro" systemLanguage="ro"><tspan id="trsvg52-ro">85 %</tspan></text><text x="719" y="595" id="trsvg127"><tspan id="trsvg52">85%</tspan></text></switch>
+<switch><text x="919" y="595" id="trsvg128-ro" systemLanguage="ro"><tspan id="trsvg53-ro">85 %</tspan></text><text x="919" y="595" id="trsvg128"><tspan id="trsvg53">85%</tspan></text></switch>
+<switch><text x="606" y="525" id="trsvg129-ro" systemLanguage="ro"><tspan id="trsvg54-ro">10 %</tspan></text><text x="606" y="525" id="trsvg129"><tspan id="trsvg54">10%</tspan></text></switch>
+<switch><text x="806" y="525" id="trsvg130-ro" systemLanguage="ro"><tspan id="trsvg55-ro">1 %</tspan></text><text x="806" y="525" id="trsvg130"><tspan id="trsvg55">1%</tspan></text></switch>
+<switch><text x="589" y="615" id="trsvg131-ro" systemLanguage="ro"><tspan id="trsvg56-ro">1 %</tspan></text><text x="589" y="615" id="trsvg131"><tspan id="trsvg56">1%</tspan></text></switch>
+</g>
+
+<!-- Neutron capture -->
+<g stroke="blue" fill="none">
+<path id="U-238-Pu" d="M 625,300 L 688,300 L 681,307 M 688,300 L 681,293"/>
+<path id="Pu-238-239" d="M 612,335 Q 642,300 688,300"/>
+<path id="Pu-239-240" d="M 732,300 L 788,300 L 781,307 M 788,300 L 781,293"/>
+<path id="Pu-240-241" d="M 790,315 L 723,387 L 733,387 M 723,387 L 723,377"/>
+<path id="Pu-241-242" d="M 732,400 L 788,400 L 781,407 M 788,400 L 781,393"/>
+<path id="Pu-242-243" d="M 832,400 L 888,400 L 881,407 M 888,400 L 881,393"/>
+<path id="Am-241-242" d="M 632,495 L 688,495 L 681,488 M 688,495 L 681,502"/>
+<path id="Am-242-243" d="M 732,495 L 788,495 L 781,502 M 788,495 L 781,488"/>
+<path id="Am-241-242m" d="M 642,515 Q 670,545 718,545 L 711,538 M 718,545 L 711,552"/>
+<path id="Am-242m-243" d="M 758,535 L 788,505 L 788,515 M 788,505 L 778,505"/>
+<path id="Am-243-244" d="M 832,500 L 888,500 L 881,507 M 888,500 L 881,493"/>
+<path id="Cm-242-243" d="M 632,600 L 688,600 L 681,607 M 688,600 L 681,593"/>
+<path id="Cm-243-244" d="M 732,600 L 788,600 L 781,607 M 788,600 L 781,593"/>
+<path id="Cm-243-245" d="M 832,600 L 888,600 L 881,607 M 888,600 L 881,593"/>
+</g>
+
+<g fill="blue">
+<switch><text x="625" y="335" id="trsvg132-ro" systemLanguage="ro"><tspan id="trsvg57-ro">91 %</tspan></text><text x="625" y="335" id="trsvg132"><tspan id="trsvg57">91%</tspan></text></switch>
+<switch><text x="740" y="296" id="trsvg133-ro" systemLanguage="ro"><tspan id="trsvg58-ro">36 %</tspan></text><text x="740" y="296" id="trsvg133"><tspan id="trsvg58">36%</tspan></text></switch>
+<switch><text x="740" y="396" id="trsvg134-ro" systemLanguage="ro"><tspan id="trsvg59-ro">25 %</tspan></text><text x="740" y="396" id="trsvg134"><tspan id="trsvg59">25%</tspan></text></switch>
+<switch><text x="640" y="490" id="trsvg135-ro" systemLanguage="ro"><tspan id="trsvg60-ro">79 %</tspan></text><text x="640" y="490" id="trsvg135"><tspan id="trsvg60">79%</tspan></text></switch>
+<switch><text x="740" y="490" id="trsvg136-ro" systemLanguage="ro"><tspan id="trsvg61-ro">1 %</tspan></text><text x="740" y="490" id="trsvg136"><tspan id="trsvg61">1%</tspan></text></switch>
+<switch><text x="685" y="535" id="trsvg137-ro" systemLanguage="ro"><tspan id="trsvg62-ro">10 %</tspan></text><text x="685" y="535" id="trsvg137"><tspan id="trsvg62">10%</tspan></text></switch>
+<switch><text x="740" y="520" id="trsvg138-ro" systemLanguage="ro"><tspan id="trsvg63-ro">16 %</tspan></text><text x="740" y="520" id="trsvg138"><tspan id="trsvg63">16%</tspan></text></switch>
+<switch><text x="845" y="515" id="trsvg139-ro" systemLanguage="ro"><tspan id="trsvg64-ro">99 %</tspan></text><text x="845" y="515" id="trsvg139"><tspan id="trsvg64">99%</tspan></text></switch>
+<switch><text x="645" y="615" id="trsvg140-ro" systemLanguage="ro"><tspan id="trsvg65-ro">3 %</tspan></text><text x="645" y="615" id="trsvg140"><tspan id="trsvg65">3%</tspan></text></switch>
+<switch><text x="745" y="615" id="trsvg141-ro" systemLanguage="ro"><tspan id="trsvg66-ro">13 %</tspan></text><text x="745" y="615" id="trsvg141"><tspan id="trsvg66">13%</tspan></text></switch>
+<switch><text x="845" y="615" id="trsvg142-ro" systemLanguage="ro"><tspan id="trsvg67-ro">81 %</tspan></text><text x="845" y="615" id="trsvg142"><tspan id="trsvg67">81%</tspan></text></switch>
+</g>
+
+<!-- Beta decay -->
+<g stroke="green" fill="none">
+<path id="Pu-241-Am" d="M 690,410 L 623,487 L 633,487 M 623,487 L 623,477"/>
+<path id="Pu-243-Am" d="M 900,410 L 823,487 L 833,487 M 823,487 L 823,477"/>
+<path id="Am-242-Cm" d="M 690,510 L 623,587 L 633,587 M 623,587 L 623,577"/>
+<path id="Am-242-Pu" d="M 790,410 L 723,482 790,410 L 790,420 M 790,410 L 780,410"/>
+<path id="Am-244-Cm" d="M 900,510 L 823,587 L 833,587 M 823,587 L 823,577"/>
+</g>
+
+<g fill="green">
+<!--text><textPath xlink:href="Pu-241-Am">&#x03B2;</textPath></text-->
+<switch><text x="651" y="436" id="trsvg143"><tspan id="trsvg68">&#x3B2;</tspan></text></switch><switch><text x="664" y="450" id="trsvg144-ro" systemLanguage="ro"><tspan id="trsvg69-ro">3 %</tspan></text><text x="664" y="450" id="trsvg144"><tspan id="trsvg69">3%</tspan></text></switch>
+<switch><text x="861" y="436" id="trsvg145"><tspan id="trsvg70">&#x3B2;</tspan></text></switch>
+<switch><text x="631" y="566" id="trsvg146"><tspan id="trsvg71">&#x3B2;</tspan></text></switch><switch><text x="644" y="580" id="trsvg147-ro" systemLanguage="ro"><tspan id="trsvg72-ro">81 %</tspan></text><text x="644" y="580" id="trsvg147"><tspan id="trsvg72">81%</tspan></text></switch>
+<switch><text x="731" y="446" id="trsvg148-ro" systemLanguage="ro"><tspan id="trsvg73-ro">Ce&#x207B;</tspan></text><text x="731" y="446" id="trsvg148"><tspan id="trsvg73">EC</tspan></text></switch><switch><text x="754" y="460" id="trsvg149-ro" systemLanguage="ro"><tspan id="trsvg74-ro">17 %</tspan></text><text x="754" y="460" id="trsvg149"><tspan id="trsvg74">17%</tspan></text></switch>
+<!--text><textPath xlink:href="Am-242-Pu">EC 17%</textPath></text-->
+<switch><text x="861" y="536" id="trsvg150"><tspan id="trsvg75">&#x3B2;</tspan></text></switch>
+</g>
+
+</g>
+</svg>
