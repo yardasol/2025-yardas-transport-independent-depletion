@@ -4,32 +4,56 @@
       \centering
       \includegraphics[width=0.8\textwidth]{./images/openmc_logo.png}
   \end{figure}
-  Solves for $\phi(E,t)$ by simulating individual neutrons via random sampling
-  of
   \begin{itemize}
-      \item starting position, direction, angle
-      \item distance to next collision (raytracing)
-      \item reaction at collision
+      \item Monte carlo code
+      \item Open source, community developed!!
+      \item NumPy, H5Py, Pandas, Matplotlib, SciPy(!!), uncertainties
   \end{itemize}
-
-  Open source, community developed!!
 \end{frame}
 
 \begin{frame}
   \frametitle{OpenMC's depletion module}
-
+  \begin{enumerate}
+      \item Run an OpenMC simulation and get reaction rates for all nuclides
+          with available data (C++)
+      \item Process reactions information to solve Equation
+          \ref{eq:depletion} (numpy for vectors and dense arrays, scipy for
+          sparse arrays)
+      \item Update material compositions and rerun
+      \item Repeat for all time steps
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Machinery to support static cross sections}
+  \frametitle{Machinery to support static cross sections and fluxes}
     \begin{columns}
             \column[t]{5cm}
                 \begin{block}{MicroXS}
-                    ...
+                    \begin{itemize}
+                        \item Stores $\sigma_{i,g} \rightarrow$ discretized on an energy grid
+                        \item Indexed by nuclide, reaction name, energy group
+                    \end{itemize}
+                \end{block}
+
+                \begin{block}{get\_microxs\_and\_flux()}
+                    \begin{itemize}
+                        \item Run an OpenMC simulation to obtain $\sigma_{i,g}$
+                            and $\phi_{g}$ for all nuclides i (one material)
+                        \item Can get $\sigma_{i,g},; \phi_{g}$ for as many
+                            materials/domains as desired
+                        \item $\phi_{g} \rightarrow$ Static fluxes discretized on an
+                            energy grid
+                    \end{itemize}
                 \end{block}
             \column[t]{5cm}
                 \begin{block}{IndependentOperator}
-                    ...
+                    \begin{itemize} 
+                        \item Drop in replacement for Operator class
+                        \item Multiply $\phi_{g}$ and $N_{i}(t) \sigma_{i,g}$ to
+                            to get reaction rate for nuclide $i$
+                    \end{itemize}
                 \end{block}
     \end{columns}
+    \begin{center}
+    \end{center}
 \end{frame}

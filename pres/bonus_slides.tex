@@ -1,0 +1,33 @@
+\begin{frame}
+    \frametitle{Application to fusion systems}
+    \begin{itemize}
+        \item Proposed fusion energy facilities have a source rate high enough
+            to activate materials, low enough to avoid significant composition
+            change via depletion
+        \item Activated nuclides decay and relase high energy photons after
+            long after reactor shutdown
+        \item Computing this dose is an important quantity for saftey and
+            liscensing 
+    \end{itemize}
+    Transport-independent depletion was used in the workflow to
+    calculate the shutdown dose rate in \cite{peterson_development_2024}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{Application to fuel cycles}
+    \begin{itemize}
+        \item Depletion determines how loaded fuel compositin affect spent fuel
+            compositions and related fuel cycle metrics.
+        \item Global fuel cycle accounts for hundreds of reactors at once
+            $\rightarrow$ impractical to run transport-coupled depletion to get
+            spent fuel compositions
+        \item A common approach is to use ``recipes'' that are based on
+            depletion calculations for a specific reactor.
+    \end{itemize}
+    Transport-independent depletion was used in Cyclus
+    \cite{huff_fundamental_2016}, an open source fuel cycle simulator, to
+    provide real-time fuel depletion capabilities that is reactor-agnostic
+    \cite{bachmann_open-source_2024}.
+    
+\end{frame}

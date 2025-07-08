@@ -15,15 +15,21 @@
     \frametitle{Depletion}
         \begin{columns}
             \column[t]{5cm}
-                From Duderstadt \& Hamilton, Nuclear Reactor Analysis:
-                \begin{quote}
-                        The atomic densities of various isotopes in a reactor
-                        core are continually changing due to niclear processes
-                        such as fission, neutron capture, and radioactive decay
-                \end{quote}
-                
-
-                Why do we care?
+               Concentration of nuclides in a reactor are constantly changing
+               due to fission, neutron capture, and decay. 
+               \newline
+               \newline
+               Why do we care?
+               \begin{itemize}
+                   \item Strong coupling between depletion and transport
+                   \begin{itemize}
+                       \item Neutron poisions $\rightarrow$ affects neutron economy
+                       \item $\downarrow$ U, $\uparrow$ Pu $\rightarrow$ Change
+                           in fission neutron energy distribution
+                   \end{itemize}
+                   \item Fission product decay heat $\rightarrow$ affects fuel
+                       reprocessing/disposal
+               \end{itemize}
             \column[t]{5cm}
                 \begin{figure}[htbp!]
                     \begin{center}
@@ -42,9 +48,11 @@
         \begin{columns}
             \column[t]{5cm}
                \begin{itemize}
-                    \item Thousands of nuclides
-                    \item Rections must be stored
-                    \item Compositions must be stored
+                    \item Depletion calculation track thousands of nuclides
+                    \item Each fuel element is unique (recall the ATR, Fig
+                        \ref{fig:atr})
+                    \item Axial discretization can add several orders of
+                        magnitude $\rightarrow$ days of calculation on a cluster
                 \end{itemize}
 
                 \begin{figure}[htbp]
