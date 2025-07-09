@@ -6,6 +6,7 @@
 - Mention we want to motivate this work and give some background on the physics
 
 # Slide 3 
+- New reactors need to be simulated before we can build them
 - 7D NTE (ADD BONUS SLIDE FOR THIS)
 - Two categories of methods used to solve NTE:
     1. Deterministic methods (FE, FD, Nodal, etc)
@@ -21,7 +22,14 @@
 - The driving mechanism of a nuclear reator is the fission chain reaction.
 - neutron hits uranium, causing it to split.
 - Releases new elements, neutrons, energy in form of heat
+- Some nuclei will absorb a neutron becoming a different isotope of the same
+    elment, or convert that neutron into a proton and become a new elment
+    entirely
+- Some of the nuclei produced are unstable and will spontaneously decay.
+    Sometimes this releasses a neutron.
 - Reactors designed to ensure neutrons consumed = neutrons released
+- Cocnentration of nuclides in reactor is constantly changing due to fission,
+    neutron capture, and radioactive decay
 
 # Slide 5
 - While the reactor is running, Uranium is used up, elements released from
@@ -30,12 +38,13 @@
 - Figure: We have capture breeding Plutonium, and fission utilziing Uranium. 
 - why do we care about this?
     1) Neutron poisions (Xe 135, Sm 149) effect neutron economy -> absorbs
-    neutrons before they can cause a fission. This informs practices like fuel
+    neutrons before they can cause a fission. This informs reactor design to
+    mitigate these effects
     2) Fissile Plutonium buildup changes the energy distribution of fission neutrons
-    over time  (maybe take this out)
-    3) Long-livded fission products in the fuel continue to give off heat and
-    radiation after the fuel is removed from reaction -> important for waste
-    disposal and reprocessing
+    -> Reactors designed for low energy neutrons, more plutonium 
+    3) Fission products in the fuel continue to decay long after fuel is removed
+    from the reactor reaction -> informs practices for fuel handling, storage,
+    and reprocessing
 
 - Transition to the next slide: from a computational perspetive, depletion makes
    everything more expensive
@@ -58,26 +67,23 @@
 - mention the 4 terms
 - Define te quantities and their units
    - XS is reaction target area
-- Transition: Let's focus on the quantities we need to solve
+- Transition: We need a neutron transport code to implement this equation in
 
 # Slide 9
+- OpenMC, developed at MIT, now ANL
+- Monte Carlo
+- Python API for generating input, postprocessing, open source!
+- Let's talk a little bit about the implementation of depletion in a code like
+    OpenMC
+
+# Slide 10
 - basically read the first block slide
 - So where do we go from here? Which one of these quantities can 
 - What if instead of solving for the flux at each timestep, we assume the flux
     is stable? What are the effects of this?
 - Transition: We need a neutron transport code to try this in.
 
-# Slide 10
-- OpenMC, developed at MIT, now ANL
-- Monte Carlo
-- Python API for generating input, postprocessing, open source!
-
-
 # Slide 11
-- Does include a depletion module in python
-- The basic flow is as follows
-
-# Slide 12
 - MicroXS: container to store cross sections on an energy grid for a specific
   domain
 
@@ -112,14 +118,14 @@
     Np239, Pu239, Pu240)
 - Less abundant nuclides have high (10 percent or more) errors
 
+# Slide 17
+- Same trend w case 3 and 2
+- Overprediction of Pu 241, other actinides
+
 # Slide 16
 - Specific analysis requires looking at the reaction rates
 - Pu241 comes from n,gamma of Pu240
 - Overprediction error matches the trend in the concentration errror
-
-# Slide 17
-- Same trend w case 3 and 2
-- Overprediction of Pu 241, other actinides
 
 # Slide 18
 - Fission product error is much lower
