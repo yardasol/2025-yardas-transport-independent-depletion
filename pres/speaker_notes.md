@@ -79,44 +79,56 @@
 
 # Slide 12
 - MicroXS: container to store cross sections on an energy grid for a specific
-    domain
-- function: run an OpenMC simulation to get XS + flux on energy grid; can define
-    multiple domains
+  domain
+
+- function: run an OpenMC simulation to get XS + flux on energy grid; can
+  define multiple domains
+
 - IndependentOperator: Drop-in replacement for Operator class that is
-    responsible for running OpenMC and processing the results.
-   - skips that, uses static mg fluxes and MicroXS to get reaction rates
+     responsible for running OpenMC and processing the results.
+  - performs step 2 in the simplifid algorithm using static mg fluxes and
+     MicroXS to get prodiction and consumption terms
 
 # Slide 13
 - Read the slide
+- Xenon poisioning: buildup of Xe 135 in the reactor can cause power
+    fluctuations.
+- Long timesteps: not as coupled to transport
 
 # Slide 14
-- Let's get into the results
+- Let's get into the results. First we will look at the actinides, which include
+    Uranium and elements near it such Plutonium and Thorium that are created via
+    neutron absorption. Actinides are interesting as they drive nuclear
+    chain reactions (or produce fissile elements that do so)
 
 # Slide 15
 - Error is relative to case 1
+- Notice the diference scales bewteen Case 2 error and Case 3 error
 - Immediately see that case 3 is more accurate than case 2 (good!)
 - General trend of increasing error w/ increasing time, but dependent on
     specific nuclides, timestep size (as we will see)
 - Two groups of nuclides: more and less abundant
 - General trend of more abundant nuclides having low (5 percent or less) concentration errors (U,
     Np239, Pu239, Pu240)
-- Less abundant nuclides have high (10 percent or more)
+- Less abundant nuclides have high (10 percent or more) errors
 
 # Slide 16
-- Same trend w case 3 and 2
-- Overprediction of Pu 241, other actinides
-
-# Slide 17
 - Specific analysis requires looking at the reaction rates
 - Pu241 comes from n,gamma of Pu240
 - Overprediction error matches the trend in the concentration errror
 
+# Slide 17
+- Same trend w case 3 and 2
+- Overprediction of Pu 241, other actinides
+
 # Slide 18
 - Fission product error is much lower
-- The low concentration error of u235 propogates to the fission products!
+- The low concentration error of u235 propagates to the fission products!
 
 # Slide 19
 - same
 
 # Slide 20 and 21
 - No significant difference with larger group structures
+
+# Slide 22

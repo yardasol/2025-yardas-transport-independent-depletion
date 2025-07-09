@@ -3,29 +3,34 @@
     \begin{columns}
             \column[t]{5cm}
             \begin{itemize}
-                \item Single PWR pincell
+                \item Single \Gls{PWR} pincell
                 \item 4.25\% enriched fuel
                 \item Reflective boundary conditions
             \end{itemize}
             Three cases:
             \begin{enumerate}
-                \item Transport-coupled depletion
+                \item Transport-coupled depletion (base truth)
                 \item Transport-independent depletion
-                \item Transport-independent depletion w/ recalcualted cross sections
+                \item Transport-independent depletion w/ recalculated cross sections
                     (sanity check)
             \end{enumerate}
             Ten time steps, two different $\Delta$t:
             \begin{enumerate}
-                \item 3-day
-                \item 30-day
+                \item 3-day (Xe 135 poisioning limit)
+                \item 30-day (long timestep approximation)
             \end{enumerate}
             \column[t]{5cm}
                 \begin{figure}[htpb]
                     \centering
                     \includegraphics[width=0.8\textwidth]{./images/pincell.png}
                     \caption{Slice plot of the pincell model in the
-                    $xy$-plane.}
+                    $xy$-plane. Blue = water, black = cladding, pink = fuel}
                     \label{fig:pincell}
                 \end{figure}
+            Three energy group structures:
+                One group (single energy),
+                8 group,
+                40 group
+
     \end{columns}
 \end{frame}

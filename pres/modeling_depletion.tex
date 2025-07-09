@@ -19,7 +19,7 @@
     \begin{equation*}
       \begin{split}
           N_i(t) &\equiv \text{density of nuclide $i$ at time $t$ [cm$^{-3}$]}\\
-        \sigma_i(E,t) &\equiv \text{transmutation cross section for nuclide $i$ at energy $E$ and time $t$ [cm$^{2}$]}\\
+        \sigma_i(E) &\equiv \text{transmutation cross section for nuclide $i$ at energy $E$ and time $t$ [cm$^{2}$]}\\
             \phi(E,t) &\equiv \text{neutron flux at energy $E$ and time $t$ [n
             cm$^{-2}$ s$^{-1}$]} \\
         f_{j \rightarrow i}(E) &\equiv \text{fraction of transmutation reactions in nuclide $j$ that produce nuclide $i$} \\
@@ -28,25 +28,4 @@
         n &\equiv \text{total number of nuclides.}
       \end{split}
     \end{equation*}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Modeling Depletion (continued)}
-    \begin{block}{What do we need to solve Equation \ref{eq:depletion}?}
-      \begin{itemize}
-          \item $N_{i}(t),\; n\; \rightarrow$ Given by the problem (e.g.
-              Westinghouse PWR using 5\% enriched fuel at BOL)
-          \item $\sigma_{i}(E,t),\;f_{j\rightarrow i},\; \lambda_{j \rightarrow
-              i}\; \rightarrow$ Material properties (data stored in memory
-              for speed)
-          \item $\phi(E,t)\; \rightarrow$ Concentration of neutrons in the
-              reactior; requires a neutron transport simulation
-      \end{itemize}  
-    \end{block}
-    
-    \begin{block}{Can we make this cheaper?}
-        \pause
-        Assume {\it static} fluxes $\rightarrow$ decouple transport from
-        depletion.
-    \end{block}
 \end{frame}

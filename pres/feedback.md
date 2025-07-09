@@ -77,7 +77,7 @@ same comment on packages
 # Slide 13
 - expand pwr
 - reacalculated (typo)
-- motivate case 3 (time dependnet depletion simulation)
+- motivate case 3 (time dependent depletion simulation)
 - label the colors
 - Add real fuel pin picture, maybe switch to XZ axis
 - Be more specific on why we picked two different timesteps

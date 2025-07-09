@@ -5,52 +5,78 @@
       \includegraphics[width=0.8\textwidth]{./images/openmc_logo.png}
   \end{figure}
   \begin{itemize}
-      \item Monte carlo code
+      \item Monte carlo neutron particle transport code
+          \cite{romano_openmc_2015}
       \item Open source, community developed!!
-      \item NumPy, H5Py, Pandas, Matplotlib, SciPy(!!), uncertainties
+      \item C++ core: neutron transport
+      \item Python API: creating input, processing output, {\bf depletion module}
+      \item Depletion dependencies: NumPy (arrays), H5Py (output file processing), Matplotlib (plotting), SciPy
+          (sparse matrices), uncertainties (uncertainty propogation)
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{OpenMC's depletion module}
-  \begin{enumerate}
-      \item Run an OpenMC simulation and get reaction rates for all nuclides
-          with available data (C++)
-      \item Process reactions information to solve Equation
-          \ref{eq:depletion} (numpy for vectors and dense arrays, scipy for
-          sparse arrays)
-      \item Update material compositions and rerun
-      \item Repeat for all time steps
-  \end{enumerate}
+  \frametitle{Depletion algorithm}
+    \begin{block}{What do we need to solve Equation \ref{eq:depletion}?}
+      \begin{itemize}
+          \item $N_{i}(0),\; n\; \rightarrow$ Given by the problem's initial
+              conditions (e.g.
+              Westinghouse PWR using 5\% enriched fuel at BOL)
+          \item $\sigma_{i}(E),\;f_{j\rightarrow i},\; \lambda_{j \rightarrow
+              i}\; \rightarrow$ Material properties (data stored in memory
+              for speed)
+          \item $\phi(E,t)\; \rightarrow$ Concentration of neutrons in the
+              reactior; requires a neutron transport simulation
+          \item $t\; \rightarrow$ time steppers (called {\it integrators} in the
+              depletion module)
+      \end{itemize}  
+    \end{block}
+    \begin{block}{Simplified Algorithm}
+      \begin{enumerate}
+          \item Run an OpenMC simulation to obtain $\phi(E, t_{h})$ 
+          \item Plug in $\phi(E,t_{h})$, $N_{i}(t_{h})$, $\sigma_{i}(E)$, $f_{j\rightarrow
+              i}$, $\lambda_{j\rightarrow i}$ to obtain production and consumption
+              terms in Equation \ref{eq:depletion}
+          \item Solve Equation \ref{eq:depletion} for $N_{i}(t_{h+1})$ (Chebyshev
+              rational approximation method \cite{romano_depletion_2021})
+          \item Update material compositions using $N_{i}(t_{h+1})$
+          \item Repeat for all time steps $t_{h}$ for $h \in [0,H]$
+      \end{enumerate}
+    \end{block}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Machinery to support static cross sections and fluxes}
+  \frametitle{Can we make this cheaper?}
+  \begin{enumerate}
+      \item Assume {\it static} fluxes $\rightarrow$ decouple transport from
+    depletion.
+      \item Use a discrete energy grid $\rightarrow$ Integrals in Equation
+          \ref{eq:depletion} become sums over energy groups $g$ (simple + fast to evaluate)
+  \end{enumerate}
+        
     \begin{columns}
             \column[t]{5cm}
                 \begin{block}{MicroXS}
                     \begin{itemize}
-                        \item Stores $\sigma_{i,g} \rightarrow$ discretized on an energy grid
-                        \item Indexed by nuclide, reaction name, energy group
+                        \item Stores $\sigma_{i,g}$
+                        \item Indexed by nuclide, reaction, energy group
                     \end{itemize}
                 \end{block}
 
                 \begin{block}{get\_microxs\_and\_flux()}
                     \begin{itemize}
                         \item Run an OpenMC simulation to obtain $\sigma_{i,g}$
-                            and $\phi_{g}$ for all nuclides i (one material)
+                            and $\phi_{g}$ for all nuclides
                         \item Can get $\sigma_{i,g},; \phi_{g}$ for as many
                             materials/domains as desired
-                        \item $\phi_{g} \rightarrow$ Static fluxes discretized on an
-                            energy grid
                     \end{itemize}
                 \end{block}
             \column[t]{5cm}
                 \begin{block}{IndependentOperator}
                     \begin{itemize} 
                         \item Drop in replacement for Operator class
-                        \item Multiply $\phi_{g}$ and $N_{i}(t) \sigma_{i,g}$ to
-                            to get reaction rate for nuclide $i$
+                        \item Performs step 2 in the Simplified algorithm for
+                            energy-discretezed value $\phi_{g}$ and $\sigma_{i,g}$
                     \end{itemize}
                 \end{block}
     \end{columns}
